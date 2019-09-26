@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+
+  tasks:
+  - name: Upload backup scripts
+    template: src=files/{{ item }} dest={{ server_root }}/ mode=0755
+    with_items:
+      - backup-assets.sh
+      - backup-databases.sh
+      - backup-assets-incremental.sh
+
+  # note that this is only a shortcut to running the full ansible provision, done anyway
+  - name: Setup cronjob for assets incremental backup script
+    cron: name="backup assets incremental" minute="0" hour="3" job="{{ server_root }}/backup-assets-incremental.sh"
+
+  

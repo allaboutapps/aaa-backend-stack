@@ -1,0 +1,5 @@
+[appserver]
+<%= CAB_VAGRANT_IP %>     ansible_ssh_user=vagrant    ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key 
+
+[vm:children]
+appserver

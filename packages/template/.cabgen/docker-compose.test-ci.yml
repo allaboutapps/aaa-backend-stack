@@ -1,0 +1,24 @@
+#
+# Configuration for testing the service in a CI environment, without
+# any volumes.
+#
+version: "2"
+services:
+  service-ci:
+    extends:
+      file: common.yml
+      service: service
+    depends_on:
+      - postgres-test
+    command: make service-test
+    environment:
+      - PGHOST=postgres-test
+      - PGPORT=5432
+      - NODE_ENV=test
+
+  postgres-test:
+    extends:
+      file: common.yml
+      service: postgres-test
+    ports:
+      - "5432:5432"

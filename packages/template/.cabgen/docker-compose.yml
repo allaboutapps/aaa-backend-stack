@@ -1,0 +1,30 @@
+#
+# Configuration for running the service
+#
+
+# Attention: This configuration currently assumes that only the node_modules folder is reused in the docker image
+# Thus the actual build folder must be managed by you!
+version: "2"
+services:
+  service:
+    extends:
+      file: common.yml
+      service: service
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    command: make service-start
+    environment:
+      - PGHOST=postgres
+      - NODE_ENV=development
+
+  postgres:
+    extends:
+      file: common.yml
+      service: postgres
+    volumes:
+      - pgvolume:/var/lib/postgresql/data
+
+volumes:
+  pgvolume: #declare a volume named pgvolume

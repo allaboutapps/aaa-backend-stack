@@ -1,0 +1,22 @@
+# Included by provision.yaml. Tasks only for the real server.
+- name: Link vagrant shared directory (VM only)
+  file: src=/vagrant dest={{ code_root }} state=link owner={{ project_user }}
+
+- name: Ensure the firewalld service is running
+  service: name=firewalld state=started enabled=yes
+
+- name: Set iptables rules (VM only)
+  shell: firewall-cmd --zone=public --add-port=80-9000/tcp --permanent
+
+- name: Ensure the firewalld service is reloaded
+  service: name=firewalld state=reloaded enabled=yes
+
+- name: Startup ntpd
+  service: name=ntpd state=started enabled=yes
+
+- name: Automatically change cwd to /vagrant on ssh connection
+  blockinfile:
+    dest: "/home/vagrant/.bashrc"
+    insertbefore: EOF
+    marker: "## {mark} ANSIBLE MANAGED CWD VAGRANT"
+    block: 'cd /vagrant'

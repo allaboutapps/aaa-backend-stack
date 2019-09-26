@@ -1,0 +1,16 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "./node_modules/.bin/tsc", // IMPORTANT: use the version in the workspace to trigger builds!
+    "isShellCommand": true,
+    "args": [
+        "-w",
+        "-p",
+        "."
+    ],
+    "showOutput": "silent",
+    "promptOnClose": false,
+    "isBackground": true,
+    "problemMatcher": "$tsc-watch"
+}

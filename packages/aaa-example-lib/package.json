@@ -1,0 +1,30 @@
+{
+  "name": "@aaa-backend-stack/example-lib",
+  "version": "1.15.0",
+  "private": true,
+  "description": "Example Lib",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/utils": "^1.15.0"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {}
+}

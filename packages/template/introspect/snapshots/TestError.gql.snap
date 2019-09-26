@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestError`] = `
+Object {
+  "data": Object {
+    "testError": null,
+  },
+  "errors": Array [
+    Object {
+      "data": Object {},
+      "message": "This is a test error",
+      "name": "TEST_ERROR",
+      "time_thrown": "__ISO_8601_DATE_STRING__",
+    },
+  ],
+}
+`;

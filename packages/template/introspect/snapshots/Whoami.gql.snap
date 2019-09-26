@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin1`] = `
+Object {
+  "data": Object {
+    "me": Object {
+      "isActive": true,
+      "uid": "5ddf8a1e-ab4d-404b-9490-80f12c7151ab",
+      "username": "admin1@test.com",
+    },
+  },
+}
+`;

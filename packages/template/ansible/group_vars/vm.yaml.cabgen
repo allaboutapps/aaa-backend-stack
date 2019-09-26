@@ -1,0 +1,13 @@
+git_branch: master
+file_env: files/service-none.env.j2
+
+database:
+  user: <%= CAB_POSTGRES_USER %>
+  password: <%= CAB_POSTGRES_PASSWORD %>
+  databases:
+  - <%= CAB_POSTGRES_DB %>
+  - <%= CAB_POSTGRES_TEST_DB %>
+
+pghero:
+  user: admin
+  password: <%= CAB_PGHERO_PASSWORD %>

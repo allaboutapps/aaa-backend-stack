@@ -1,0 +1,36 @@
+import { IModels, IDefaultModelAttributes, SEQUELIZE } from "@aaa-backend-stack/storage";
+
+export type IPrimaryKey = string; // uuidv4
+
+export interface IAttributes extends IDefaultModelAttributes {}
+
+export interface IInstance extends SEQUELIZE.Instance<IAttributes>, IAttributes {}
+
+export interface IModel extends SEQUELIZE.Model<IInstance, Partial<IAttributes>> {}
+
+type IAssociations = {};
+
+let associations: IAssociations;
+
+export function getAssociations() {
+    return associations;
+}
+
+export default function createModel(sequelize: SEQUELIZE.Sequelize) {
+    const MY_NEW_MODEL_NAME = sequelize.define<IInstance, IAttributes>("MY_NEW_MODEL_NAME", {
+        // ...
+    }, {
+            classMethods: {
+                associate: function (models: IModels) {
+                    associations = {
+                        // ...
+                    };
+                }
+            },
+            instanceMethods: {
+                // ...
+            }
+        });
+
+    return MY_NEW_MODEL_NAME;
+}

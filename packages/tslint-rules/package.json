@@ -1,0 +1,29 @@
+{
+  "name": "@aaa-backend-stack/tslint-rules",
+  "version": "1.15.0",
+  "description": "aaa internal tslint rules",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-package-strict-version": "echo 'noop'",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@types/node": "8.5.8"
+  },
+  "devDependencies": {
+    "rimraf": "2.6.1",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/node": "8.5.8"
+  }
+}

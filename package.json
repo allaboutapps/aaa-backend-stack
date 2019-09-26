@@ -1,0 +1,49 @@
+{
+  "name": "aaa-backend-stack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo for backend related packages, managed by lerna",
+  "license": "MIT",
+  "author": "all about apps",
+  "scripts": {
+    "_add-newline-package-jsons": "lerna exec -- node ../../scripts/addNewlinePackageJson.js",
+    "_check-package-strict-version": "lerna exec -- node ../../scripts/checkPackageStrictVersion.js",
+    "_clean-packages-lib-from-defaults": "lerna exec --scope @aaa-backend-stack/* --ignore @aaa-backend-stack/tslint-rules --ignore @aaa-backend-stack/tests -- \"(cd ../../defaults/ && find . -type f) | xargs rm -f\"",
+    "_coverage": "lerna run coverage --scope template-aaa-backend --stream",
+    "_coverage:summary": "lerna run coverage:summary --scope template-aaa-backend --stream",
+    "_remove-newline-package-jsons": "lerna exec -- node ../../scripts/removeNewlinePackageJson.js",
+    "_ensure-no-packages-yarn-lock": "rm -rf ./packages/*/yarn.lock",
+    "_fix-package-jsons": "lerna exec sort-package-json && yarn _add-newline-package-jsons",
+    "_init-packages-lib-with-defaults": "lerna exec --scope @aaa-backend-stack/* --ignore @aaa-backend-stack/tslint-rules -- \"cp -R ../../defaults/. .\"",
+    "_link-external-typings": "node scripts/linkExternalTypings.js",
+    "_pin-types-resolutions": "lerna exec -- node ../../scripts/pinTypesResolutions.js",
+    "_print-link-instructions": "node scripts/printLinkInstructions.js",
+    "_unlink-external-typings": "node scripts/unlinkExternalTypings.js",
+    "_test": "lerna run test --scope template-aaa-backend --stream",
+    "bootstrap": "yarn _init-packages-lib-with-defaults && lerna bootstrap",
+    "build": "rimraf build && tsc && yarn lint && yarn tsc-sync",
+    "check-package-validity": "yarn _ensure-no-packages-yarn-lock && yarn _pin-types-resolutions && yarn _fix-package-jsons && yarn _check-package-strict-version",
+    "clean-builds": "lerna --concurrency 9999 exec -- yarn clean",
+    "clean-modules": "yarn _clean-packages-lib-from-defaults && lerna clean --yes && rm -rf node_modules",
+    "create-aaa-backend": "rm -rf aaa-backend .aaa-* && node ./packages/create-aaa-backend/lib/index.js",
+    "link-all": "lerna exec --stream -- \"yarn link\" && yarn _link-external-typings && yarn _print-link-instructions",
+    "lint": "tslint --rules-dir node_modules/@aaa-backend-stack/tslint-rules/lib --project tsconfig.json -c tslint.json",
+    "start": "yarn tsc-sync && lerna run start --scope template-aaa-backend --stream",
+    "test": "yarn tsc-sync && yarn _test",
+    "tsc": "tsc",
+    "tsc-sync": "node scripts/tscSyncBuildIntoPackages.js",
+    "unlink-all": "lerna exec --stream -- \"yarn unlink\" && yarn _unlink-external-typings && echo 'Cleared! Remove and reinstall your project dependencies now.'",
+    "watch": "rimraf build && tsc --watch"
+  },
+  "devDependencies": {
+    "fs-extra": "4.0.1",
+    "lerna": "2.6.0",
+    "lodash": "4.17.10",
+    "rimraf": "2.6.1",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

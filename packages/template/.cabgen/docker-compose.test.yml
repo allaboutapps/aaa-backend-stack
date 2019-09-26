@@ -1,0 +1,29 @@
+#
+# Configuration for testing the service, with the current directory
+# mounted to /app/. This means all changes in the local directory will
+# be used inside the container.
+#
+# Attention: This configuration currently assumes that only the node_modules folder is reused in the docker image
+# Thus the actual build folder must be managed by you!
+version: "2"
+services:
+  service:
+    extends:
+      file: common.yml
+      service: service
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres-test
+    command: make service-test
+    environment:
+      - PGHOST=postgres-test
+      - PGPORT=5432
+      - NODE_ENV=test
+
+  postgres-test:
+    extends:
+      file: common.yml
+      service: postgres-test
+    ports:
+      - "5432:5432"

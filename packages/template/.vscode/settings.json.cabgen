@@ -1,0 +1,4 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "tslint.rulesDirectory": "./node_modules/@aaa-backend-stack/tslint-rules/lib"
+}

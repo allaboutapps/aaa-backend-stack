@@ -1,0 +1,52 @@
+{
+  "name": "@aaa-backend-stack/utils",
+  "version": "1.15.0",
+  "description": "Utility belt for aaa backend projects",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/logger": "^1.15.0",
+    "@types/bluebird": "3.5.8",
+    "@types/bluebird-global": "3.5.3",
+    "@types/bluebird-retry": "0.0.33",
+    "@types/glob": "5.0.32",
+    "@types/lodash": "4.14.50",
+    "@types/temp-write": "3.3.0",
+    "@types/traverse": "0.6.29",
+    "@types/zxcvbn": "^1.15.0",
+    "bluebird": "3.5.0",
+    "bluebird-retry": "0.11.0",
+    "glob": "7.1.2",
+    "lodash": "4.17.10",
+    "temp-write": "3.4.0",
+    "traverse": "0.6.6",
+    "zxcvbn": "4.4.2"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/bluebird": "3.5.8",
+    "@types/bluebird-global": "3.5.3",
+    "@types/bluebird-retry": "0.0.33",
+    "@types/glob": "5.0.32",
+    "@types/lodash": "4.14.50",
+    "@types/temp-write": "3.3.0",
+    "@types/traverse": "0.6.29"
+  }
+}

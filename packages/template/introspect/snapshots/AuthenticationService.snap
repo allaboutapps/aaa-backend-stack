@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthenticationServiceConflictConfirmationMismatch`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Conflict",
+    "errorType": "passwordConfirmationMismatch",
+    "message": "Provided password and password confirmation do not match",
+    "statusCode": 409,
+  },
+  "statusCode": 409,
+}
+`;
+
+exports[`AuthenticationServiceConflictWeakPassword`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Conflict",
+    "errorType": "weakPassword",
+    "message": "Given password does not meet minimum password strength requirements",
+    "statusCode": 409,
+  },
+  "statusCode": 409,
+}
+`;
+
+exports[`AuthenticationServiceForbiddenFacebookDeactivated`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Forbidden",
+    "errorType": "facebookAuthDisabled",
+    "message": "Facebook authentication is disabled",
+    "statusCode": 403,
+  },
+  "statusCode": 403,
+}
+`;
+
+exports[`AuthenticationServiceForbiddenGoogleDeactivated`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Forbidden",
+    "errorType": "googleAuthDisabled",
+    "message": "Google authentication is disabled",
+    "statusCode": 403,
+  },
+  "statusCode": 403,
+}
+`;
+
+exports[`AuthenticationServiceGenerateAuthTokensUserNotFound`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Not Found",
+    "message": "User not found",
+    "statusCode": 404,
+  },
+  "statusCode": 404,
+}
+`;
+
+exports[`AuthenticationServiceGuestAuthDisabled`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Forbidden",
+    "errorType": "guestAuthDisabled",
+    "message": "Guest authentication is disabled",
+    "statusCode": 403,
+  },
+  "statusCode": 403,
+}
+`;
+
+exports[`AuthenticationServiceInvalidLogout`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Forbidden",
+    "errorType": "invalidLogout",
+    "message": "Invalid logout request",
+    "statusCode": 403,
+  },
+  "statusCode": 403,
+}
+`;
+
+exports[`AuthenticationServiceNotFoundPasswordResetToken`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Not Found",
+    "errorType": "invalidPasswordResetToken",
+    "message": "Invalid password reset token",
+    "statusCode": 404,
+  },
+  "statusCode": 404,
+}
+`;
+
+exports[`AuthenticationServiceRegisterUsernameExists`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Conflict",
+    "errorType": "usernameExists",
+    "message": "User with the given username already exists",
+    "statusCode": 409,
+  },
+  "statusCode": 409,
+}
+`;
+
+exports[`AuthenticationServiceRegisterWeakPassword`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Conflict",
+    "errorType": "weakPassword",
+    "message": "Given password does not meet minimum password strength requirements",
+    "statusCode": 409,
+  },
+  "statusCode": 409,
+}
+`;
+
+exports[`AuthenticationServiceUnauthorizedInvalidCredentials`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Unauthorized",
+    "errorType": "invalidCredentials",
+    "message": "Invalid login credentials",
+    "statusCode": 401,
+  },
+  "statusCode": 401,
+}
+`;
+
+exports[`AuthenticationServiceUnauthorizedInvalidRefreshToken`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Unauthorized",
+    "errorType": "invalidRefreshToken",
+    "message": "Invalid refresh token",
+    "statusCode": 401,
+  },
+  "statusCode": 401,
+}
+`;
+
+exports[`AuthenticationServiceUnauthorizedUserDeactivated`] = `
+Object {
+  "headers": Object {},
+  "payload": Object {
+    "error": "Forbidden",
+    "errorType": "userDeactivated",
+    "message": "User deactivated",
+    "statusCode": 403,
+  },
+  "statusCode": 403,
+}
+`;

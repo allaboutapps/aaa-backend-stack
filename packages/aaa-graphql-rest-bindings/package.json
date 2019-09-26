@@ -1,0 +1,43 @@
+{
+  "name": "@aaa-backend-stack/graphql-rest-bindings",
+  "version": "1.15.11",
+  "description": "Provides utils for graphql introspection and devtools in combination with rest layer",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/graphql": "^1.15.11",
+    "@aaa-backend-stack/logger": "^1.15.0",
+    "@aaa-backend-stack/rest": "^1.15.8",
+    "@aaa-backend-stack/utils": "^1.15.0",
+    "@types/bluebird": "3.5.8",
+    "@types/bluebird-global": "3.5.3",
+    "@types/lodash": "4.14.50",
+    "bluebird": "3.5.0",
+    "graphql-server-hapi": "0.9.0",
+    "graphql-voyager": "1.0.0-rc.10",
+    "lodash": "4.17.10"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/bluebird": "3.5.8",
+    "@types/bluebird-global": "3.5.3",
+    "@types/lodash": "4.14.50"
+  }
+}

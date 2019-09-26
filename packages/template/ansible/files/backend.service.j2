@@ -1,0 +1,16 @@
+[Unit]
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+WorkingDirectory={{ code_root }}
+ExecStart=/bin/yarn start
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{ project_name }}
+User={{ project_user }}
+Group={{ project_user }}
+
+[Install]
+WantedBy=multi-user.target

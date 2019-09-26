@@ -1,0 +1,62 @@
+import { IDefaultModelAttributes, IModels, SEQUELIZE } from "@aaa-backend-stack/storage";
+
+import { IAttributes as IUserAttributes, IInstance as IUserInstance, IPrimaryKey as IUserPrimaryKey } from "./User";
+
+export type IPrimaryKey = string;
+
+export interface IAttributes extends IDefaultModelAttributes {
+    token: IPrimaryKey;
+    UserUid: IUserPrimaryKey;
+
+    User?: IUserInstance;
+}
+export interface IInstance extends SEQUELIZE.Instance<IAttributes>, IAttributes {
+    getUser: SEQUELIZE.BelongsToGetAssociationMixin<IUserInstance>;
+    setUser: SEQUELIZE.BelongsToSetAssociationMixin<IUserInstance, IUserPrimaryKey>;
+    createUser: SEQUELIZE.BelongsToCreateAssociationMixin<IUserAttributes>;
+}
+
+export interface IModel extends SEQUELIZE.Model<IInstance, Partial<IAttributes>> { }
+
+type IAssociations = {
+    User: any;
+};
+
+let associations: IAssociations;
+
+export function getAssociations() {
+    return associations;
+}
+
+export default function createRefreshTokenModel(sequelize: SEQUELIZE.Sequelize) {
+    // tslint:disable-next-line:no-unnecessary-local-variable
+    const RefreshToken = sequelize.define<IInstance, IAttributes>("RefreshToken", {
+        token: {
+            type: SEQUELIZE.UUID,
+            allowNull: false,
+            primaryKey: true,
+            defaultValue: SEQUELIZE.fn("uuid_generate_v4")
+        },
+        UserUid: {
+            type: SEQUELIZE.UUID,
+            references: {
+                model: "Users",
+                key: "uid"
+            },
+            onUpdate: "CASCADE",
+            onDelete: "CASCADE"
+        }
+    }, {
+            classMethods: {
+                associate: function (models: IModels) {
+                    // tslint:disable:no-void-expression
+                    associations = {
+                        User: RefreshToken.belongsTo(models.User)
+                    };
+                    // tslint:enable:no-void-expression
+                }
+            }
+        });
+
+    return RefreshToken;
+}

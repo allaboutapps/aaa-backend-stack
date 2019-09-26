@@ -1,0 +1,35 @@
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+  become_user: "{{ project_user }}"
+  # vars:
+  #   reset_database: false  # ATTENTION: If set to 'true', database will be completely wiped!
+
+  tasks:
+  # git clone
+  - name: Pull sources from the repository
+    git: repo={{ project_repo }} dest={{ code_root }} version={{ git_branch }} force=yes
+
+  - name: Upload service.env
+    template: src={{ file_env }} dest={{ code_root }}/env/service.env
+
+  # attention, dont use the npm ansible task here, as it will never downgrade packages!
+  - name: Update node modules as defined in yarn.lock
+    shell: yarn --pure-lockfile chdir={{ code_root }}
+
+  - name: yarn build
+    shell: yarn build chdir={{ code_root }}
+
+  - name: yarn db migrate # only migrate here, do not import!
+    shell: yarn db migrate chdir={{ code_root }}
+    # when: not reset_database
+
+  # Commented out as insanely distructive
+  # - name: yarn db drop-migrate-and-import # delete complete database, recreate and import
+  #   shell: yarn db drop-migrate-and-import chdir={{ code_root }}
+  #   when: reset_database
+
+  - name: restart backend service
+    service: name={{ project_name }} state=restarted
+    become_user: root

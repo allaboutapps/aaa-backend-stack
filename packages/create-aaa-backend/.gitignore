@@ -1,0 +1,8 @@
+lib
+node_modules
+
+# temp checkouts
+.aaa-*
+
+# created projects
+aaa-backend

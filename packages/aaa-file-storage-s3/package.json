@@ -1,0 +1,39 @@
+{
+  "name": "@aaa-backend-stack/file-storage-s3",
+  "version": "1.15.0",
+  "description": "File storage service implementation using Amazon S3 buckets (or compatible servers)",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/file-storage": "^1.15.0",
+    "@aaa-backend-stack/logger": "^1.15.0",
+    "@aaa-backend-stack/utils": "^1.15.0",
+    "@types/lodash": "4.14.50",
+    "@types/url-join": "0.8.2",
+    "aws-sdk": "2.311.0",
+    "lodash": "4.17.10",
+    "url-join": "4.0.0"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/lodash": "4.14.50",
+    "@types/url-join": "0.8.2"
+  }
+}

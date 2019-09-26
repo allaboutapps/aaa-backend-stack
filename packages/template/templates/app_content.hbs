@@ -1,0 +1,14 @@
+{{!-- This base template gets used by the /app/content endpoint--}}
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <title>{{contentId}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{externalAssetsUrlHost}}/assets/normalize.min.css">
+    <link rel="stylesheet" href="{{externalAssetsUrlHost}}/assets/app_content.css">
+  </head>
+  <body>
+    {{{ contentHtml }}}
+  </body>
+</html>

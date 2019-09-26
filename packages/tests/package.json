@@ -1,0 +1,46 @@
+{
+  "name": "@aaa-backend-stack/tests",
+  "version": "1.15.13",
+  "private": true,
+  "description": "Integration tests",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/devtools": "^1.15.3",
+    "@aaa-backend-stack/git-info": "^1.15.0",
+    "@aaa-backend-stack/graphql": "^1.15.11",
+    "@aaa-backend-stack/graphql-rest-bindings": "^1.15.11",
+    "@aaa-backend-stack/logger": "^1.15.0",
+    "@aaa-backend-stack/mailer": "^1.15.0",
+    "@aaa-backend-stack/polyfills": "^1.15.7",
+    "@aaa-backend-stack/pushes": "^1.15.10",
+    "@aaa-backend-stack/rest": "^1.15.8",
+    "@aaa-backend-stack/serverdate": "^1.15.0",
+    "@aaa-backend-stack/storage": "^1.15.7",
+    "@aaa-backend-stack/utils": "^1.15.0",
+    "@types/lodash": "4.14.50",
+    "lodash": "4.17.10",
+    "template-aaa-backend": "^1.15.13"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/lodash": "4.14.50"
+  }
+}

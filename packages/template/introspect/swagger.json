@@ -1,0 +1,1138 @@
+{
+  "swagger": "2.0",
+  "host": "0.0.0.0:9001",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "info": {
+    "title": "template-aaa-backend",
+    "version": "1.5.9",
+    "description": "the all about apps template project for a node.js backend service"
+  },
+  "securityDefinitions": {
+    "default-authentication-strategy": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "x-keyPrefix": "Bearer "
+    },
+    "basic-authentication": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "includeBearerSecurityStrategyName": []
+    },
+    {
+      "includeBasicAuthSecurityStrategyName": []
+    }
+  ],
+  "tags": [],
+  "paths": {
+    "/assets/{param*}": {
+      "get": {
+        "summary": "Non sensitive assets file serving",
+        "operationId": "getAssetsParam",
+        "description": "e.g. \"$app_content.css\"",
+        "tags": [
+          "assets/{param*}"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/graphql": {
+      "get": {
+        "summary": "GraphQL Endpoint",
+        "operationId": "getCmsapiGraphql",
+        "tags": [
+          "api/v1/graphql"
+        ],
+        "responses": {
+          "default": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Successful"
+          }
+        }
+      },
+      "post": {
+        "summary": "GraphQL Endpoint",
+        "operationId": "postCmsapiGraphql",
+        "tags": [
+          "api/v1/graphql"
+        ],
+        "responses": {
+          "default": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Successful"
+          }
+        }
+      }
+    },
+    "/documentation/graphiql": {
+      "get": {
+        "summary": "GraphiQL Endpoint (documentation)",
+        "operationId": "getDocumentationGraphiql",
+        "tags": [
+          "documentation/graphiql"
+        ],
+        "responses": {
+          "default": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Successful"
+          }
+        }
+      }
+    },
+    "/documentation/graphql-voyager": {
+      "get": {
+        "summary": "GraphQL-voyager endpoint (documentation)",
+        "operationId": "getDocumentationGraphqlvoyager",
+        "tags": [
+          "documentation/graphql-voyager"
+        ],
+        "responses": {
+          "default": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "Successful"
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health information about the backend service",
+        "operationId": "getApiV1Health",
+        "description": "Either x-admin-secret header or query.pwd must be set",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "x-admin-secret",
+            "in": "header",
+            "required": false
+          },
+          {
+            "type": "string",
+            "name": "pwd",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "tags": [
+          "api/v1/health"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 2",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/app/content/{contentId}": {
+      "get": {
+        "summary": "Hosts dynamically generated content html files",
+        "operationId": "getAppContentContentid",
+        "description": "Returns HTML-formatted pages. These ids are currently available: default",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "contentId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "tags": [
+          "app/content/{contentId}"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Model 3",
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Model 4",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/exchange-basic": {
+      "get": {
+        "summary": "Allows to exchange basic auth credentials to an OAuth accesstoken (for graphQL debugging) | @authenticated [cms]",
+        "operationId": "getApiV1AuthExchangebasic",
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Model 5",
+              "type": "object"
+            },
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 2",
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Model 6",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/profile": {
+      "get": {
+        "summary": "Gets a generic auth-only-specific user-profile | @authenticated [*]",
+        "operationId": "getApiV1AuthProfile",
+        "description": "@authenticated: Needs 'authorization': 'Bearer XXX' set in Header (uses default-authentication-strategy)\n\n",
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Model 7",
+              "type": "object"
+            },
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 2",
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Model 6",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/profile": {
+      "get": {
+        "summary": "Gets a app-specific user-profile | @authenticated [user,guest]",
+        "operationId": "getAppV1UserProfile",
+        "description": "@authenticated: Needs 'authorization': 'Bearer XXX' set in Header (uses default-authentication-strategy)\n\n",
+        "tags": [
+          "app/v1/user"
+        ],
+        "responses": {
+          "200": {
+            "description": "Provides all profile information about an AppUser",
+            "schema": {
+              "$ref": "#/definitions/AppUserProfile",
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 2",
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Model 6",
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Model 3",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Updates a app-specific user-profile | @authenticated [user,guest]",
+        "operationId": "patchAppV1UserProfile",
+        "description": "@authenticated: Needs 'authorization': 'Bearer XXX' set in Header (uses default-authentication-strategy)\n\nA full AppUserProfile instance can be send in the request, however, only the specified fields in AppUserProfilePatchRequest will be patched.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/AppUserProfilePatchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "app/v1/user"
+        ],
+        "responses": {
+          "200": {
+            "description": "Provides all profile information about an AppUser",
+            "schema": {
+              "$ref": "#/definitions/AppUserProfile",
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 2",
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Model 6",
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Model 3",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pushtoken": {
+      "post": {
+        "summary": "Adds a push-token to this user's profile | @authenticated [user,guest]",
+        "operationId": "postAppV1Pushtoken",
+        "description": "@authenticated: Needs 'authorization': 'Bearer XXX' set in Header (uses default-authentication-strategy)\n\n",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Model 8"
+            }
+          }
+        ],
+        "tags": [
+          "app/v1/pushtoken"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 2",
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Model 6",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "summary": "call to get a pin (if app user) or email (if cms user) with an Password Reset Token to set a new password",
+        "operationId": "postApiV1AuthForgotpassword",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/ForgotPasswordSchema"
+            }
+          }
+        ],
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/ForgotPasswordResponseSchema",
+              "type": "object"
+            },
+            "description": "Successful"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Model 3",
+              "type": "object"
+            }
+          },
+          "462": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 9",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "summary": "Registers a real user (non guest user) with your application and returns a temporary access token for that user",
+        "operationId": "postApiV1AuthRegister",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/RegisterPostRequest"
+            }
+          }
+        ],
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "The standard response for all authentication related calls, containing token infos, user and meta infos",
+            "schema": {
+              "$ref": "#/definitions/Token",
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "409": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 10",
+              "type": "object"
+            }
+          },
+          "464": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 11",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/set-forgotten-password": {
+      "post": {
+        "summary": "sets a new password with a valid password reset token and auto logins the user",
+        "operationId": "postApiV1AuthSetforgottenpassword",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/SetForgottenPasswordSchema"
+            }
+          }
+        ],
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "The standard response for all authentication related calls, containing token infos, user and meta infos",
+            "schema": {
+              "$ref": "#/definitions/Token",
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Model 3",
+              "type": "object"
+            }
+          },
+          "464": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 11",
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/token": {
+      "post": {
+        "summary": "Get an access token",
+        "operationId": "postApiV1AuthToken",
+        "description": "Main-Part of the OAuth-2 flow to get a new access-token.\nAdditionally you can use this endpoint with the grantType \"guest\" to get an unlimited accesstoken for newly created guest user.\nIf the guest grantType is chosen, the returned accessToken will never expire, however no refreshToken will be issued!",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/TokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "The standard response for all authentication related calls, containing token infos, user and meta infos",
+            "schema": {
+              "$ref": "#/definitions/Token",
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 12",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 13",
+              "type": "object"
+            }
+          },
+          "422": {
+            "description": "[Custom HTTP Error]",
+            "schema": {
+              "$ref": "#/definitions/Model 14",
+              "type": "object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Logout the user | @authenticated [*]",
+        "operationId": "deleteApiV1AuthToken",
+        "description": "@authenticated: Needs 'authorization': 'Bearer XXX' set in Header (uses default-authentication-strategy)\n\nThere are no real 'sessions' in this API (stateless), but this call invalidates the refresh- and accessToken currently used from this login. Attention, if this call is run on a user with a guest only scope, this user will NEVER be able to login into the application again!",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Model 15"
+            }
+          }
+        ],
+        "tags": [
+          "api/v1/auth"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Model 1",
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Model 16",
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Model 6",
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Model 1": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 400
+        },
+        "error": {
+          "type": "string",
+          "example": "Bad Request"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 2": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 401
+        },
+        "error": {
+          "type": "string",
+          "example": "Unauthorized"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 3": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 404
+        },
+        "error": {
+          "type": "string",
+          "example": "Not Found"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 4": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 500
+        },
+        "error": {
+          "type": "string",
+          "example": "Internal Server Error"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 5": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Authorization"
+      ]
+    },
+    "Model 6": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 403
+        },
+        "error": {
+          "type": "string",
+          "example": "Forbidden"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "scope": {
+      "type": "array",
+      "description": "The scope (roles & permissions) of this user.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "AuthProfile": {
+      "type": "object",
+      "description": "The user info object, providing only auth-specific / scope permission information of this user",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "uidv4 (type)",
+          "example": "0102cad9-f620-4fd0-bb05-0e1a91784213",
+          "x-format": {
+            "guid": true
+          }
+        },
+        "username": {
+          "type": "string",
+          "description": "Supplied unique username, this value will be used for password authentication, optional (null for users who cannot use password authentication)"
+        },
+        "scope": {
+          "$ref": "#/definitions/scope",
+          "type": "array"
+        }
+      },
+      "required": [
+        "uid",
+        "scope"
+      ]
+    },
+    "Model 7": {
+      "type": "object",
+      "x-meta": {
+        "className": "GetAuthProfileResponse"
+      },
+      "properties": {
+        "profile": {
+          "$ref": "#/definitions/AuthProfile",
+          "type": "object"
+        }
+      },
+      "required": [
+        "profile"
+      ]
+    },
+    "AppUserProfile": {
+      "type": "object",
+      "description": "Provides all profile information about an AppUser",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "uidv4 (type)",
+          "example": "0102cad9-f620-4fd0-bb05-0e1a91784213",
+          "x-format": {
+            "guid": true
+          }
+        },
+        "scope": {
+          "$ref": "#/definitions/scope",
+          "type": "array"
+        }
+      },
+      "required": [
+        "uid",
+        "scope"
+      ]
+    },
+    "Model 8": {
+      "type": "object",
+      "properties": {
+        "deviceType": {
+          "type": "string",
+          "enum": [
+            "ios",
+            "android"
+          ]
+        },
+        "deviceToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "deviceType",
+        "deviceToken"
+      ]
+    },
+    "ForgotPasswordSchema": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "email (type): trimed and pattern matched for email, Max 255 long",
+          "example": "team@allaboutapps.at",
+          "maxLength": 255,
+          "x-format": {
+            "email": true
+          },
+          "x-convert": {
+            "lowercase": true,
+            "trim": true
+          }
+        }
+      },
+      "required": [
+        "username"
+      ]
+    },
+    "ForgotPasswordResponseSchema": {
+      "type": "object",
+      "properties": {
+        "validUntil": {
+          "type": "string",
+          "format": "date",
+          "description": "Date object describing, when the token is getting invalid",
+          "example": "2017-12-05T13:18:09.793Z"
+        }
+      },
+      "required": [
+        "validUntil"
+      ]
+    },
+    "Model 9": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 462
+        },
+        "message": {
+          "type": "string",
+          "example": "Email could not be send."
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "RegisterPostRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "Username of the new user. This value will be used for password authentication",
+          "example": "testuser1",
+          "pattern": "/^[0-9a-z_.\\-\\+@]+$/",
+          "x-convert": {
+            "lowercase": true,
+            "trim": true
+          }
+        },
+        "password": {
+          "type": "string",
+          "description": "clear password of the user",
+          "example": "testpassword1",
+          "minLength": 6,
+          "x-convert": {
+            "trim": true
+          }
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "Token": {
+      "type": "object",
+      "description": "The standard response for all authentication related calls, containing token infos, user and meta infos",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "description": "A token for this user that can be used to get a new accessToken using the /auth/token endpoint. This token might change over time, so for a new login, or when exchanging a refreshToken for a new accessToken a new refreshToken might be generated. Guest users don't receive a refreshToken (will be null)",
+          "example": "0102cad9-f620-4fd0-bb05-0e1a91784213",
+          "x-format": {
+            "guid": true
+          }
+        },
+        "accessToken": {
+          "type": "string",
+          "description": "The main authorization token for API usage. This token has to be provided with the Authorization HTTP header as Bearer for all authenticated calls. Only valid for a limited time - see validUntil",
+          "example": "0102cad9-f620-4fd0-bb05-0e1a91784213",
+          "x-format": {
+            "guid": true
+          }
+        },
+        "expiresIn": {
+          "type": "integer",
+          "description": "Time in seconds how long the Access Token will be valid on the server. Guest users will have an accessToken that never expires (-1)"
+        },
+        "tokenType": {
+          "type": "string",
+          "description": "a string that tells you what type of token it is. You should use this type in your Authorization requests."
+        }
+      },
+      "required": [
+        "refreshToken",
+        "accessToken",
+        "expiresIn",
+        "tokenType"
+      ]
+    },
+    "Model 10": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 409
+        },
+        "message": {
+          "type": "string",
+          "example": "This username is no longer available"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 11": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 464
+        },
+        "message": {
+          "type": "string",
+          "example": "Weak password."
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "SetForgottenPasswordSchema": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "uidv4 (type)",
+          "example": "0102cad9-f620-4fd0-bb05-0e1a91784213",
+          "x-format": {
+            "guid": true
+          }
+        },
+        "password": {
+          "type": "string",
+          "example": "testpassword1",
+          "minLength": 6,
+          "x-convert": {
+            "trim": true
+          }
+        }
+      },
+      "required": [
+        "token",
+        "password"
+      ]
+    },
+    "TokenRequest": {
+      "type": "object",
+      "properties": {
+        "grantType": {
+          "type": "string",
+          "description": "This grant type describes the allowed login methods.\nNote: the guest grantType is a very specific user kind.\nIt returns non expireable accessTokens which only work for routes that allow for the default guest scope named \"guest\"",
+          "enum": [
+            "password",
+            "refreshToken",
+            "guest"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "description": "The base scope (= permission / role) you want to authenticate yourself against, optional\ndefaults to \"user\"\nguest users must set this to \"guest\" to be able to authenticate via grantType: \"guest\"",
+          "default": "user"
+        }
+      },
+      "required": [
+        "grantType"
+      ]
+    },
+    "Model 12": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 400
+        },
+        "message": {
+          "type": "string",
+          "example": "Bad Request: grantType=guest only allowed if requested scope=guest"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 13": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 401
+        },
+        "message": {
+          "type": "string",
+          "example": "Unauthorized: Invalid refresh token"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "Model 14": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 422
+        },
+        "message": {
+          "type": "string",
+          "example": "Unprocessable Entity: Guest user login is disallowed by service settings!"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    },
+    "AppUserProfilePatchRequest": {
+      "type": "object",
+      "description": "Available fields to directly patch an AppUserProfile, unknown keys are allowed (whole modified AppUserProfile can be sent), but dismissed."
+    },
+    "Model 15": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "description": "The refreshToken for this 'session' received from logging in or exchaning for a new accessToken. This invalidates this refreshToken to prevent misuse",
+          "x-format": {
+            "guid": true
+          }
+        }
+      },
+      "required": [
+        "refreshToken"
+      ]
+    },
+    "Model 16": {
+      "type": "object",
+      "description": "Boom JSON Error",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 401
+        },
+        "error": {
+          "type": "string",
+          "example": "Unauthorized"
+        },
+        "message": {
+          "type": "string",
+          "example": "invalid refresh token"
+        }
+      },
+      "required": [
+        "statusCode"
+      ]
+    }
+  }
+}

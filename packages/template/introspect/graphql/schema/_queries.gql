@@ -1,0 +1,14 @@
+mutation TestError {
+    testError
+}
+
+
+query Whoami {
+    me {
+        uid
+        username
+        isActive
+    }
+}
+
+

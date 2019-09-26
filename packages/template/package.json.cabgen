@@ -1,0 +1,11 @@
+<%
+// rewrite the package.json
+const pkg = require(__targetPath);
+
+pkg.name = CAB_PROJECT_NAME;
+pkg.description = CAB_PKG_DESCRIPTION;
+pkg.version = CAB_PKG_VERSION;
+pkg.scripts.lint = "tslint --rules-dir ./node_modules/@aaa-backend-stack/tslint-rules/lib --project tsconfig.json -c tslint.json";
+
+return JSON.stringify(pkg, null, 2);
+%>

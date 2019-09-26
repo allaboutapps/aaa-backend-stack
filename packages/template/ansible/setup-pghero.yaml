@@ -1,0 +1,108 @@
+---
+- hosts: all
+  gather_facts: false
+  become: true
+
+  tasks:
+  - name: Add pghero repository
+    yum_repository:
+      name: pghero
+      description: pghero packages
+      baseurl: https://dl.packager.io/srv/rpm/pghero/pghero/master/el/7/$basearch
+      enabled: 1
+      gpgcheck: 0
+      repo_gpgcheck: 1
+      gpgkey: https://dl.packager.io/srv/pghero/pghero/key
+
+  - name: Install pghero
+    yum:
+      name: pghero
+      state: latest
+
+  # Configured & setup pghero
+  - name: Configure pghero (DATABASE_URL)
+    command: pghero config:set DATABASE_URL=postgres://{{database.user}}:{{database.password}}@localhost:5432/{{database.databases[0]}}
+  - name: Configure pghero (PGHERO_USERNAME)
+    command: pghero config:set PGHERO_USERNAME={{pghero.user}}
+  - name: Configure pghero (PGHERO_PASSWORD)
+    command: pghero config:set PGHERO_PASSWORD={{pghero.password}}
+  - name: Configure pghero (PORT)
+    command: pghero config:set PORT=3001
+  - name: Configure pghero (RAILS_LOG_TO_STDOUT)
+    command: pghero config:set RAILS_LOG_TO_STDOUT=disabled
+  - name: Setup pghero (enable webinterface)
+    command: pghero scale web=1
+
+  # Setup pghero DB tables
+  - name: Copy pghero table create scripts
+    copy:
+      src: "{{ item }}"
+      dest: /tmp
+    with_fileglob:
+      - files/pghero-create-*.sql
+  
+  - name: Create pghero query stats table
+    shell: psql {{database.databases[0]}} < /tmp/pghero-create-query-stats-table.sql
+    become_user: postgres
+
+  - name: Create pghero space stats table
+    shell: psql {{database.databases[0]}} < /tmp/pghero-create-space-stats-table.sql
+    become_user: postgres
+  
+  - name: Remove pghero query stats table create script
+    file:
+      path: /tmp/pghero-create-query-stats-table.sql
+      state: absent
+  
+  - name: Remove pghero query space table create script
+    file:
+      path: /tmp/pghero-create-query-space-table.sql
+      state: absent
+
+  # Enable query stats in postgres
+  - name: Create pg_stat_statements extension in PostgreSQL
+    shell: psql {{database.databases[0]}} -c 'CREATE EXTENSION IF NOT EXISTS pg_stat_statements;'
+    become_user: postgres
+
+  - name: Enable query stats in PostgreSQL (1 of 2)
+    lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf
+                line="shared_preload_libraries = 'pg_stat_statements'"
+                insertbefore=EOF
+                create=yes
+
+  - name: Enable query stats in PostgreSQL (2 of 2)
+    lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf
+                line="pg_stat_statements.track = all"
+                insertbefore=EOF
+                create=yes
+
+  # Restart Services
+  - name: Restart PostgreSQL service
+    service: 
+      name: postgresql-9.4
+      state: restarted
+
+  - name: Enable and start pghero webinterface service
+    service:
+      name: pghero-web
+      state: started
+      enabled: yes
+
+  - name: Setup cronjob for pghero query stats
+    cron: name="execute pghero query stats capture"
+          minute="*/5"
+          job="pghero run rake pghero:capture_query_stats"
+          user="root"
+
+  - name: Setup cronjob for pghero space stats
+    cron: name="execute pghero space stats capture"
+          minute="0"
+          hour="3"
+          job="pghero run rake pghero:capture_space_stats"
+          user="root"
+
+  # Execute initial stats capture
+  - name: Capture initial query stats
+    command: pghero run rake pghero:capture_query_stats
+  - name: Capture initial space stats
+    command: pghero run rake pghero:capture_space_stats

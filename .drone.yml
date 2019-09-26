@@ -1,0 +1,212 @@
+# -----------------------------------------------------------------------------
+# SETTINGS
+# -----------------------------------------------------------------------------
+
+# Drone matrix: Additional ENV vars for substitution - http://docs.drone.io/matrix-builds/
+# Will be evaluated BEFORE the YAML is parsed, ONLY strings allowed, NO substitutions ${XXX} here.
+
+matrix:
+  include:
+    - BUILD_ENV: all
+
+# YAML Configuration anchors - https://learnxinyminutes.com/docs/yaml/
+# Will be evaluated WHILE the YAML is parsed, any valid yaml allowed, substitutions ${XXX} allowed.
+
+alias:
+
+  # ENV variables for executing yarn:test (typically only the DB connector is relevant)
+  - &TEST_ENV
+    CI: ${CI}
+    PGHOST: &PGHOST database
+    PGUSER: &PGUSER postgres
+    PGPASSWORD: &PGPASSWORD test
+    PGDATABASE: &PGDATABASE test
+
+  # Which build events should trigger the main pipeline (defaults to all)
+  - &BUILD_EVENTS [push, pull_request, tag]
+
+  # Pipeline merge helper: only execute if build event received
+  - &WHEN_BUILD_EVENT
+    when:
+      event: *BUILD_EVENTS
+
+# The actual pipeline building our product
+pipeline:
+
+  # ---------------------------------------------------------------------------
+  # BUILD Monorepo
+  # ---------------------------------------------------------------------------
+
+  "docker build":
+    group: build-monorepo
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - "docker build --compress -t ${DRONE_REPO,,}-monorepo ."
+    <<: *WHEN_BUILD_EVENT
+
+  "bootstrap":
+    group: bootstrap
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      - node -v
+      - npm -v
+      - yarn --version
+      - yarn bootstrap
+    <<: *WHEN_BUILD_EVENT
+
+  "build":
+    group: pre-check
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      - yarn tsc
+      - yarn tsc-sync
+    <<: *WHEN_BUILD_EVENT
+
+  "database connection":
+    group: pre-check
+    image: postgres:alpine
+    commands:
+      # wait for postgres service to become available
+      - |
+        until psql -U $PGUSER -d $PGDATABASE -h database \
+         -c "SELECT 1;" >/dev/null 2>&1; do sleep 1; done
+      # query the database
+      - |
+        psql -U $PGUSER -d $PGDATABASE -h database \
+          -c "SELECT name, setting FROM pg_settings;"
+    environment: *TEST_ENV
+    <<: *WHEN_BUILD_EVENT
+
+  # ---------------------------------------------------------------------------
+  # CHECK Monorepo
+  # ---------------------------------------------------------------------------
+
+  # "npm audit":
+  #   group: check-monorepo
+  #   image: ${DRONE_REPO,,}-monorepo
+  #   commands:
+  #     - "synp --source-file yarn.lock" # setup a package-lock.json
+  #     - "npm audit --registry=https://registry.npmjs.org || true" # run audit with lock from above
+  #   environment: *TEST_ENV
+  #   <<: *WHEN_BUILD_EVENT
+
+  # "yarn audit":
+  #   group: check-monorepo
+  #   image: ${DRONE_REPO,,}-monorepo
+  #   commands:
+  #     # "yarn audit" currently fails with 503 on monorepos
+  #     # see https://github.com/yarnpkg/yarn/issues/7025
+  #     - "yarn audit --registry=https://registry.npmjs.org || true" # run audit with lock from above
+  #   environment: *TEST_ENV
+  #   <<: *WHEN_BUILD_EVENT
+
+  "test":
+    group: check-monorepo
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      # use _test to prevent concurrent rimraf and cabgen copy execution
+      - yarn _test
+      - yarn _coverage:summary
+    environment: *TEST_ENV
+    <<: *WHEN_BUILD_EVENT
+
+  "lint":
+    group: check-monorepo
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      - yarn lint
+    <<: *WHEN_BUILD_EVENT
+
+  "check-package-validity":
+    group: check-monorepo
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      - yarn check-package-validity && git status
+      # error out if our git is no longer clean!
+      - git diff --exit-code
+    <<: *WHEN_BUILD_EVENT
+
+  "create-aaa-backend":
+    group: check-monorepo
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      - cd packages/create-aaa-backend
+      - yarn create-aaa-backend-local-monorepo
+      # don't reuse the monorepos node_modules
+      # fully reinstall from the current latest.
+      - rm -rf aaa-backend/node_modules
+    <<: *WHEN_BUILD_EVENT
+
+  # ---------------------------------------------------------------------------
+  # LERNA
+  # ---------------------------------------------------------------------------
+
+  "lerna updated":
+    group: post-check
+    image: ${DRONE_REPO,,}-monorepo
+    commands:
+      - lerna updated
+    <<: *WHEN_BUILD_EVENT
+
+  # ---------------------------------------------------------------------------
+  # BUILD scaffolded project
+  # ---------------------------------------------------------------------------
+
+  "docker build (new tagged version)":
+    group: post-check
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - "cd packages/create-aaa-backend/aaa-backend"
+      - "docker build --compress -t ${DRONE_REPO,,}-template:${DRONE_COMMIT_SHA} ."
+    when:
+      event: tag
+
+  # ---------------------------------------------------------------------------
+  # CHECK scaffolded project
+  # ---------------------------------------------------------------------------
+
+  "test (new tagged version)":
+    group: check-template
+    image: "${DRONE_REPO,,}-template:${DRONE_COMMIT_SHA}"
+    commands:
+      - cd /app
+      - yarn test:nocheck
+      - yarn coverage:summary
+    environment: *TEST_ENV
+    when:
+      event: tag
+
+  "lint (new tagged version)":
+    group: check-template
+    image: "${DRONE_REPO,,}-template:${DRONE_COMMIT_SHA}"
+    commands:
+      - cd /app
+      - yarn lint
+    when:
+      event: tag
+
+# Long living services where the startup order does not matter (otherwise use detach: true)
+services:
+
+  # ---------------------------------------------------------------------------
+  # SERVICES
+  # ---------------------------------------------------------------------------
+
+  "env":
+    image: alpine
+    commands:
+      - "env | sort"
+
+  "database":
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: *PGUSER
+      POSTGRES_PASSWORD: *PGPASSWORD
+      POSTGRES_DB: *PGDATABASE
+    # Apply some performance improvements to pg as these guarantees are not needed while running integration tests
+    command: "-c 'shared_buffers=128MB' -c 'fsync=off' -c 'synchronous_commit=off' -c 'full_page_writes=off' -c 'max_connections=100' -c 'client_min_messages=warning'"
+    <<: *WHEN_BUILD_EVENT

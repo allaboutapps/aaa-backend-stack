@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginDeactivatedUser`] = `
+Object {
+  "error": "Forbidden",
+  "errorType": "userDeactivated",
+  "message": "User deactivated",
+  "statusCode": 403,
+}
+`;
+
+exports[`LoginFacebookDeactivated`] = `
+Object {
+  "error": "Forbidden",
+  "errorType": "facebookAuthDisabled",
+  "message": "Facebook authentication is disabled",
+  "statusCode": 403,
+}
+`;
+
+exports[`LoginGoogleDeactivated`] = `
+Object {
+  "error": "Forbidden",
+  "errorType": "googleAuthDisabled",
+  "message": "Google authentication is disabled",
+  "statusCode": 403,
+}
+`;
+
+exports[`LoginGuestAuthDisabled`] = `
+Object {
+  "error": "Forbidden",
+  "errorType": "guestAuthDisabled",
+  "message": "Guest authentication is disabled",
+  "statusCode": 403,
+}
+`;
+
+exports[`LoginInvalidCredentials`] = `
+Object {
+  "error": "Unauthorized",
+  "errorType": "invalidCredentials",
+  "message": "Invalid login credentials",
+  "statusCode": 401,
+}
+`;
+
+exports[`LoginInvalidRefreshToken`] = `
+Object {
+  "error": "Unauthorized",
+  "errorType": "invalidRefreshToken",
+  "message": "Invalid refresh token",
+  "statusCode": 401,
+}
+`;
+
+exports[`LoginInvalidScope`] = `
+Object {
+  "error": "Unauthorized",
+  "errorType": "invalidCredentials",
+  "message": "Invalid login credentials",
+  "statusCode": 401,
+}
+`;
+
+exports[`LogoutInvalid`] = `
+Object {
+  "error": "Forbidden",
+  "errorType": "invalidLogout",
+  "message": "Invalid logout request",
+  "statusCode": 403,
+}
+`;
+
+exports[`RegisterMissing`] = `
+Object {
+  "data": Object {
+    "_object": Object {
+      "password": "   tinyaaa   ",
+      "username": "test",
+    },
+    "details": Array [
+      Object {
+        "context": Object {
+          "key": "password",
+          "value": "   tinyaaa   ",
+        },
+        "message": "\\"password\\" must not have leading or trailing whitespace",
+        "path": "password",
+        "type": "string.trim",
+      },
+    ],
+    "isJoi": true,
+    "name": "ValidationError",
+  },
+  "error": "Bad Request",
+  "errorType": "generic",
+  "message": "child \\"password\\" fails because [\\"password\\" must not have leading or trailing whitespace]",
+  "statusCode": 400,
+  "validation": Object {
+    "keys": Array [
+      "password",
+    ],
+    "source": "payload",
+  },
+}
+`;
+
+exports[`RegisterUsernameExists`] = `
+Object {
+  "error": "Conflict",
+  "errorType": "usernameExists",
+  "message": "User with the given username already exists",
+  "statusCode": 409,
+}
+`;

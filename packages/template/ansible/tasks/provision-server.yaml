@@ -1,0 +1,52 @@
+# Included by provision.yaml. Tasks only for the real server.
+- name: Create the project code directory
+  file: path={{ code_root }} state=directory owner={{ project_user }} mode=755
+
+- name: Generate a SSH key
+  command: ssh-keygen -N '' -f /home/{{ project_user }}/.ssh/id_rsa
+  become_user: "{{ project_user }}"
+  args:
+   creates: ~/.ssh/id_rsa
+
+- name: Add bitbucket-prod/stash server ssh hostkey
+  shell: ssh-keyscan -p 2222 bitbucket-prod.allaboutapps.at >> ~/.ssh/known_hosts
+  become_user: "{{ project_user }}"
+  args:
+   creates: ~/.ssh/known_hosts
+
+# Backups
+# -------
+- name: Upload backup scripts
+  template: src=files/{{ item }} dest={{ server_root }}/ mode=0755
+  with_items:
+    - backup-assets.sh
+    - backup-databases.sh
+    - backup-assets-incremental.sh
+
+- name: Create the backup directory
+  file: path=/server/backups state=directory mode=755
+
+- name: Setup cronjob for database backup script
+  cron: name="backup databases" minute="0" hour="3" job="{{ server_root }}/backup-databases.sh"
+
+- name: Setup cronjob for assets backup script
+  cron: name="backup assets" minute="0" hour="3" job="{{ server_root }}/backup-assets.sh"
+
+- name: Setup cronjob for assets incremental backup script
+  cron: name="backup assets incremental" minute="0" hour="3" job="{{ server_root }}/backup-assets-incremental.sh"
+
+# backend systemd config
+# ----------------------
+- name: Upload systemd config for the backend
+  template: src=files/backend.service.j2 dest=/etc/systemd/system/{{ project_name }}.service
+
+- name: Enable systemd config for the backend
+  service: name={{ project_name }}.service enabled=yes
+
+# nginx
+# -----
+# - name: Make sure nginx is installed
+#   yum: name=nginx state=present
+#
+# - name: Auto-start nginx at boot
+#   service: name=nginx enabled=yes

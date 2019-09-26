@@ -1,0 +1,85 @@
+---
+format_version: '4'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+trigger_map:
+- push_branch: "*"
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - remote-script-runner@2.0.1:
+        title: aaa kickstart
+        inputs:
+        - script_url: https://public.allaboutapps.at/bitrise/kickstart.sh
+    - activate-ssh-key@4.0.2:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4.0.11: {}
+    - script@1.1.5:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
+                BUILD_HASH=${BITRISE_GIT_COMMIT}
+                BUILD_NAME="Bitrise build #${BITRISE_BUILD_NUMBER}"
+            else
+                BUILD_HASH=${GIT_CLONE_COMMIT_HASH}
+                BUILD_NAME="Bitrise PR build #${BITRISE_BUILD_NUMBER}"
+            fi
+
+            BUILD_STATUS="INPROGRESS"
+
+            curl -u ${AAA_STASH_BUILD_STATUS_CREDENTIALS} -H "Content-Type: application/json" -X POST https://git.allaboutapps.at/rest/build-status/1.0/commits/${BUILD_HASH} -d "{ \"state\": \"${BUILD_STATUS}\", \"key\": \"${BITRISE_BUILD_SLUG}\", \"name\": \"${BUILD_NAME}\", \"url\": \"${BITRISE_BUILD_URL}\", \"description\": \"${BITRISE_GIT_MESSAGE}\" }"
+        title: Update git build status
+    - script@1.1.5:
+        title: Execute backend tests
+        inputs:
+        - content: |-
+            #!/bin/bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            # execute backend tests
+            make create-aaa-backend-docker-setup
+            make test
+            make clean-test
+    - script@1.1.5:
+        title: Update git build status
+        is_always_run: true
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
+                BUILD_HASH=${BITRISE_GIT_COMMIT}
+                BUILD_NAME="Bitrise build #${BITRISE_BUILD_NUMBER}"
+            else
+                BUILD_HASH=${GIT_CLONE_COMMIT_HASH}
+                BUILD_NAME="Bitrise PR build #${BITRISE_BUILD_NUMBER}"
+            fi
+
+            if [ "${BITRISE_BUILD_STATUS}" = "1" ]; then
+                BUILD_STATUS="FAILED"
+            else
+                BUILD_STATUS="SUCCESSFUL"
+            fi
+
+            curl -u ${AAA_STASH_BUILD_STATUS_CREDENTIALS} -H "Content-Type: application/json" -X POST https://git.allaboutapps.at/rest/build-status/1.0/commits/${BUILD_HASH} -d "{ \"state\": \"${BUILD_STATUS}\", \"key\": \"${BITRISE_BUILD_SLUG}\", \"name\": \"${BUILD_NAME}\", \"url\": \"${BITRISE_BUILD_URL}\", \"description\": \"${BITRISE_GIT_MESSAGE}\" }"
+    - remote-script-runner@2.0.1:
+        title: aaa teardown
+        inputs:
+        - script_url: https://public.allaboutapps.at/bitrise/teardown.sh
+        is_always_run: true

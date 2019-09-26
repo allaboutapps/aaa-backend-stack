@@ -1,0 +1,57 @@
+{
+  "name": "@aaa-backend-stack/storage",
+  "version": "1.15.7",
+  "description": "Storage Package Abstraction",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/logger": "^1.15.0",
+    "@aaa-backend-stack/utils": "^1.15.0",
+    "@types/bluebird": "3.5.8",
+    "@types/bluebird-global": "3.5.3",
+    "@types/bluebird-retry": "0.0.33",
+    "@types/pg": "7.1.2",
+    "@types/sequelize": "4.0.39",
+    "@types/umzug": "2.1.1",
+    "@types/uuid": "3.4.1",
+    "bluebird": "3.5.0",
+    "bluebird-retry": "0.11.0",
+    "cls-bluebird": "2.0.1",
+    "dataloader-sequelize": "1.5.1",
+    "moment": "2.20.1",
+    "moment-timezone": "0.5.14",
+    "pg": "6.1.6",
+    "pg-hstore": "2.3.2",
+    "pg-native": "1.10.1",
+    "sequelize": "3.31.0",
+    "umzug": "1.12.0",
+    "uuid": "3.1.0"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/bluebird": "3.5.8",
+    "@types/bluebird-global": "3.5.3",
+    "@types/bluebird-retry": "0.0.33",
+    "@types/pg": "7.1.2",
+    "@types/sequelize": "4.0.39",
+    "@types/umzug": "2.1.1",
+    "@types/uuid": "3.4.1"
+  }
+}

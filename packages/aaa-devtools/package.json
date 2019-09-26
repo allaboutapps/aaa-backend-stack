@@ -1,0 +1,38 @@
+{
+  "name": "@aaa-backend-stack/devtools",
+  "version": "1.15.3",
+  "description": "Websocket devtools which integrates with aaa logger (pipes logs from stdout)",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@aaa-backend-stack/build-tools": "^1.15.0",
+    "@aaa-backend-stack/git-info": "^1.15.0",
+    "@types/lodash": "4.14.50",
+    "@types/ws": "3.0.2",
+    "bufferutil": "3.0.2",
+    "lodash": "4.17.10",
+    "utf-8-validate": "3.0.3",
+    "ws": "3.2.0"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/test-environment": "^1.15.0",
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/lodash": "4.14.50",
+    "@types/ws": "3.0.2"
+  }
+}

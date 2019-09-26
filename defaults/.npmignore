@@ -1,0 +1,16 @@
+# default .npmignore:
+
+.*.swp
+._*
+.DS_Store
+.git
+.hg
+.lock-wscript
+.svn
+.wafpickle-*
+config.gypi
+CVS
+npm-debug.log
+node_modules
+
+# your custom ignores...

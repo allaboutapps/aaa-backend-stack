@@ -1,0 +1,33 @@
+project_name: <%= CAB_PROJECT_NAME %>
+server_root: /server
+project_root: "{{ server_root }}/{{ project_name }}"
+project_user: node
+project_repo: ssh://git@bitbucket-prod.allaboutapps.at:2222/REPOSITORY
+logs_root: "{{ project_root }}/logs"
+code_root: "{{ project_root }}/code"
+
+# default backups strategy (optimized for production, in sync with our offerings)
+keep_assets_backups_days:
+  daily: 0 # do nothing, we'll use incremental daily backups instead
+  weekly: 40
+  monthly: 365
+  incremental: 7
+
+keep_database_backups_days:
+  daily: 7
+  weekly: 40
+  monthly: 365
+
+yum_packages:
+  - gcc-c++          # required for npm/pg-native
+  - python-psycopg2  # required for ansible postgresql* modules
+  - postgresql11-server
+  - postgresql11-devel
+  - postgresql11-contrib
+  - git
+  - wget
+  - ntp
+
+# global npm package installation is no longer needed (yarn gets installed by yum repo)
+# npm_packages:
+#   - { name: "yarn", version: "latest" } # yarn pkg mgmt

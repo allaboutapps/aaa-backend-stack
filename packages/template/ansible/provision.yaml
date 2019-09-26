@@ -1,0 +1,166 @@
+---
+- hosts: all
+  gather_facts: false
+  become: yes
+
+  tasks:
+  # Create user, group and base directory
+  - name: Create user
+    user: name={{ project_user }} state=present
+
+  - name: Create the project directory
+    file: path={{ project_root }} state=directory owner={{ project_user }} mode=755
+
+  - name: Create the logs directory
+    file: path={{ logs_root }} state=directory owner={{ project_user }} mode=755
+
+  - name: Update permissions of project directory
+    file: path={{ project_root }} state=directory owner={{ project_user }} mode=755
+
+  - name: Create user .ssh directory
+    file: path=/home/{{ project_user }}/.ssh/ state=directory owner={{ project_user }} mode=755
+
+  # Adds vagrant to sudoers, after which we can run commands with `sudo_user` (eg. postgres)
+  - name: Allow vagrant sudo (VM only)
+    lineinfile: dest=/etc/sudoers
+                regexp="%vagrant ALL.*"
+                line="%vagrant ALL = (postgres) NOPASSWD:ALL"
+                insertbefore=EOF
+    when: '"vm" in group_names'
+
+  # Setup PostgreSQL 11 Repo
+  - stat: path=/etc/yum.repos.d/pgdg-11-centos.repo
+    register: pg_repo
+
+  - name: Setup PostgreSQL yum repository
+    yum: name=https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64/pgdg-centos11-11-2.noarch.rpm state=present
+    when: not pg_repo.stat.exists
+
+  # Install Packages
+  - name: Install Extra Packages for Enterprise Linux (EPEL) Repository
+    yum: name=epel-release state=present
+
+  - name: Install required system packages
+    yum: name={{ item }} state=present
+    with_items: "{{yum_packages}}"
+
+  # VM specific tasks should be done here. Adds vagrant to sudoers, after which we can run commands with `sudo_user` (eg. postgres)
+  - include: tasks/provision-vm.yaml
+    when: '"vm" in group_names'
+
+  # Prevent epel7 nodejs install, must always be done through nodesource!
+  - name: "Prevent node installation from EPEL7 (forces usage of nodesource repository)"
+    lineinfile:
+      dest: /etc/yum.repos.d/epel.repo
+      line: "exclude=nodejs npm libuv libicu nodejs-devel libuv-devel libicu-devel"
+      insertafter: "\\[epel\\]"
+      regexp: "exclude=.*"
+      state: present
+    when: '"vm" in group_names'
+
+  # Setup NodeJS Repo
+  - name: Install NodeJS 8.x (LTS) Repository
+    shell: "curl -sL https://rpm.nodesource.com/setup_8.x | bash -"
+
+  # Install NodeJS
+  - name: Install NodeJS (LTS)
+    yum: name=nodejs state=latest enablerepo=nodesource
+
+  # Install Yarn
+  - name: Install Yarn Repository
+    yum_repository:
+      name: yarn
+      description: Yarn Repository
+      baseurl: https://dl.yarnpkg.com/rpm/
+      gpgkey: https://dl.yarnpkg.com/rpm/pubkey.gpg
+      gpgcheck: yes
+
+  - name: Install Yarn
+    yum: name=yarn state=present
+
+  # Install global NodeJS modules
+  - name: Install required global node modules
+    npm: name={{ item.name }} version={{ item.version }} global=yes state=present
+    with_items: "{{ npm_packages }}"
+    when: npm_packages is defined
+
+  # Setup PostgreSQL
+  - name: Add pg bin dir to PATH
+    lineinfile: dest=/etc/profile.d/path.sh
+                line='export PATH="$PATH:/usr/pgsql-11/bin"'
+                insertbefore=EOF
+                create=yes
+
+  - name: Symlink 'pg_config' to /usr/bin/
+    file: src=/usr/pgsql-11/bin/pg_config dest=/usr/bin/pg_config state=link
+
+  - stat: path=/var/lib/pgsql/11/data/postgresql.conf
+    register: pgsql_conf
+
+  - name: Ensure PostgreSQL is initialized
+    command: /usr/pgsql-11/bin/postgresql-11-setup initdb
+    when: not pgsql_conf.stat.exists
+
+  - name: Ensure the PostgreSQL service is running
+    service: name=postgresql-11 state=started enabled=yes
+
+  # TODO: create 2 separate productive users - one for application access (normal) and 1 super user (for migrations)
+  # ATTENTION: encrypted=yes is required for Postgres 11, default (`UNENCRYPTED PASSWORD`) is no longer supported 
+  - name: Create db superuser for vm
+    become_user: postgres
+    postgresql_user: name={{ database.user }} password={{ database.password }} encrypted=yes role_attr_flags=SUPERUSER
+
+  - name: Ensure database is created
+    become_user: postgres
+    postgresql_db: name={{ item }} encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0' state=present
+    with_items: "{{database.databases}}"
+
+  - name: PostgreSQL change listen_addresses to '*'
+    lineinfile: dest=/var/lib/pgsql/11/data/postgresql.conf regexp="^#listen_addresses" line="listen_addresses = '*'" state=present backup=yes
+
+  - name: Ensure PostgreSQL password authentication is enabled
+    lineinfile: dest=/var/lib/pgsql/11/data/pg_hba.conf
+                regexp='host\s+all\s+all\s+127.0.0.1/32\s+ident'
+                line='host all all all md5'
+                insertbefore=BOF
+
+  - name: Apply performance related postgresql.conf modifications (VM-only)
+    blockinfile:
+      dest: /var/lib/pgsql/11/data/postgresql.conf
+      marker: "# {mark} VM ONLY ANSIBLE MANAGED BLOCK #"
+      insertafter: |
+        #------------------------------------------------------------------------------
+        # CUSTOMIZED OPTIONS
+        #------------------------------------------------------------------------------
+      content: |
+        # https://www.tkalin.com/blog_posts/quick-postgresql-server-optimization-for-development-or-integration-server/
+        # https://www.postgresql.org/docs/current/static/non-durability.html
+        
+        # Turn off fsync; there is no need to flush data to disk.
+        fsync = 'off'
+        
+        # Turn off full_page_writes;
+        # there is no need to guard against partial page writes.
+        full_page_writes = 'off'
+        
+        # Increase checkpoint_segments and checkpoint_timeout ;
+        # this reduces the frequency of checkpoints,
+        # but increases the storage requirements of /pg_xlog.
+        # Configuration parameter checkpoint_segments was replaced with max_wal_size, see https://www.postgresql.org/docs/11/static/release-9-5.html
+        # New config value is calculated using: max_wal_size = (3 * checkpoint_segments) * 16MB --> previous value checkpoint_segments = '100'
+        max_wal_size = 4800MB
+        checkpoint_timeout = '45min'
+        
+        # Turn off synchronous_commit;
+        # there might be no need to write the WAL to disk on every commit.
+        # This setting does risk transaction loss (though not data corruption)
+        # in case of a crash of the database alone.
+        synchronous_commit = 'off'
+    when: '"vm" in group_names' # IMPORTANT, NEVER EXECUTE THIS ON SERVER INSTANCES!
+
+  - name: Restart PostgreSQL
+    service: name=postgresql-11 state=restarted
+
+  # Server specific tasks are included here (not executed in VM)
+  - include: tasks/provision-server.yaml
+    when: '"vm" not in group_names'

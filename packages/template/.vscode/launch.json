@@ -1,0 +1,27 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Port",
+            "port": 8999,
+            "address": "10.0.0.10", // match this IP with your vagrant specific project environment!
+            "remoteRoot": "/vagrant",
+            "localRoot": "${workspaceRoot}",
+            "sourceMaps": true,
+            "restart": true,
+            "outFiles": [
+                "build/**/*.js"
+            ],
+            "skipFiles": [
+                "node_modules/**/*.*"
+            ],
+            "smartStep": true,
+            "protocol": "inspector"
+        }
+    ]
+}

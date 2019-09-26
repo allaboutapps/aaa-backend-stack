@@ -1,0 +1,39 @@
+# OS Specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# lerna & npm & yarn top level
+lerna-debug.log
+npm-debug.log
+yarn-error.log
+
+# Node specific
+/node_modules
+/packages/*/node_modules
+/packages/*/build
+/packages/aaa-*/lib
+
+# vagrant
+.vagrant
+
+# Ignore lib defaults (initialized through yarn run init-packages-lib-with-defaults)
+/packages/aaa-*/.vscode
+/packages/aaa-*/.gitignore
+/packages/aaa-*/.npmignore
+/packages/aaa-*/.npmrc
+/packages/aaa-*/.nvmrc
+/packages/aaa-*/.yarnrc
+/packages/aaa-*/tsconfig.json
+/packages/aaa-*/tslint.json
+
+# ignore generated aaa-backend project and tmp checkout directories
+aaa-backend
+.aaa-*
+
+# ignore typescript fast build --> ./build
+build

@@ -1,0 +1,20 @@
+// .gqlconfig (with query)
+{
+  schema: {
+    files: 'introspect/graphql/schema/schema.gql',
+  },
+  query: {
+    files: [
+      // query gql files
+      {
+        match: 'introspect/graphql/*.gql',
+        parser: 'QueryParser',
+      },
+      // [Embedded queries] gql tag files
+      {
+        match: { include: 'src/**/*.ts', ignore: 'src/test/IGQLQueries.ts' },
+        parser: [ 'EmbeddedQueryParser', { startTag: 'gql`', endTag: '`' } ],
+      },
+    ]
+  }
+}

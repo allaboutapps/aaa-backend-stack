@@ -1,0 +1,57 @@
+{
+  "name": "@aaa-backend-stack/build-tools",
+  "version": "1.15.0",
+  "description": "base tools for env sourcing and building cli tools",
+  "license": "MIT",
+  "author": "all about apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bin": {
+    "env-cmd": "./node_modules/.bin/env-cmd",
+    "nodemon": "./node_modules/.bin/nodemon",
+    "npm-watch": "./node_modules/.bin/npm-watch",
+    "rimraf": "./node_modules/.bin/rimraf",
+    "sort-package-json": "./node_modules/.bin/sort-package-json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-clean-dependencies": "node -pe \"require('./package.json').name\"",
+    "clean": "rimraf lib",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@types/cli": "0.11.19",
+    "@types/dotenv": "4.0.1",
+    "@types/fs-extra": "4.0.1",
+    "@types/lodash": "4.14.50",
+    "@types/node": "8.5.8",
+    "@types/semver": "5.4.0",
+    "cli": "1.0.1",
+    "dotenv": "4.0.0",
+    "env-cmd": "5.1.0",
+    "fs-extra": "4.0.1",
+    "lodash": "4.17.10",
+    "nodemon": "1.11.0",
+    "npm-watch": "0.2.0",
+    "require-dir": "0.3.2",
+    "rimraf": "2.6.1",
+    "semver": "5.4.1",
+    "sort-package-json": "1.7.1"
+  },
+  "devDependencies": {
+    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "tslint": "5.11.0",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/cli": "0.11.19",
+    "@types/dotenv": "4.0.1",
+    "@types/fs-extra": "4.0.1",
+    "@types/lodash": "4.14.50",
+    "@types/node": "8.5.8",
+    "@types/semver": "5.4.0"
+  }
+}

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>devtools - ${gitBranch}</title>
+    <meta http-equiv="Content-Language" content="en-us">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        body {
+            font-size: large;
+            margin: 0;
+            padding: 0;
+            font-family: Helvetica, Verdana, sans-serif;
+            font-weight: 200;
+        }
+
+        .shortcut {
+            font-family: "Monaco", monospace;
+            font-size: medium;
+            color: #eee;
+            background-color: #333;
+            padding: 4px;
+            border-radius: 4px;
+            letter-spacing: 3px;
+        }
+
+        #devtools-banner {
+            display: none;
+            background-color: #FDFDD5;
+            padding: 10px;
+        }
+
+        #devtools-banner h3 {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        #devtools-banner a {
+            display: none;
+            padding: 10px 20px 10px 20px;
+            margin-bottom: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 11px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            font-weight: bold;
+            background-color: #4d7bd6;
+            border-radius: 2px;
+            border: 1px solid #2d53af;
+            display: inline-block;
+        }
+
+        .content {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <!--<h1>Devtools: {projectname} service <small>{version}</small></h1>-->
+        <h1>Devtools</h1>
+        <h5>hash: ${gitHash} - branch: ${gitBranch} - tag: ${gitTag}<br/><small>msg: ${gitMessage}</small></h5>
+        <p><b>Chrome</b>: Press <span class="shortcut">⌘ ⌥ J</span> (OS X) or <span class="shortcut">Ctrl Shift J</span> (Windows
+            / Linux) to open Developer Tools.</p>
+        <p><b>Firefox</b>: Press <span class="shortcut">⌘ ⌥ I</span> (OS X) or <span class="shortcut">Ctrl Shift I</span> (Windows
+            / Linux) to open Developer Tools.</p>
+    </div>
+    <script language="javascript">
+        // adapted from https://github.com/joewalnes/reconnecting-websocket
+        function ReconnectingWebSocket(url, protocols, options) {
+
+            // Default settings
+            var settings = {
+
+                /** Whether this instance should log debug messages. */
+                debug: false,
+
+                /** Whether or not the websocket should attempt to connect immediately upon instantiation. */
+                automaticOpen: true,
+
+                /** The number of milliseconds to delay before attempting to reconnect. */
+                reconnectInterval: 1000,
+                /** The maximum number of milliseconds to delay a reconnection attempt. */
+                maxReconnectInterval: 30000,
+                /** The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist. */
+                reconnectDecay: 1.5,
+
+                /** The maximum time in milliseconds to wait for a connection to succeed before closing and retrying. */
+                timeoutInterval: 2000,
+
+                /** The maximum number of reconnection attempts to make. Unlimited if null. */
+                maxReconnectAttempts: null,
+
+                /** The binary type, possible values 'blob' or 'arraybuffer', default 'blob'. */
+                binaryType: 'blob'
+            }
+            if (!options) { options = {}; }
+
+            // Overwrite and define settings with options if they exist.
+            for (var key in settings) {
+                if (typeof options[key] !== 'undefined') {
+                    this[key] = options[key];
+                } else {
+                    this[key] = settings[key];
+                }
+            }
+
+            // These should be treated as read-only properties
+
+            /** The URL as resolved by the constructor. This is always an absolute URL. Read only. */
+            this.url = url;
+
+            /** The number of attempted reconnects since starting, or the last successful connection. Read only. */
+            this.reconnectAttempts = 0;
+
+            /**
+             * The current state of the connection.
+             * Can be one of: WebSocket.CONNECTING, WebSocket.OPEN, WebSocket.CLOSING, WebSocket.CLOSED
+             * Read only.
+             */
+            this.readyState = WebSocket.CONNECTING;
+
+            /**
+             * A string indicating the name of the sub-protocol the server selected; this will be one of
+             * the strings specified in the protocols parameter when creating the WebSocket object.
+             * Read only.
+             */
+            this.protocol = null;
+
+            // Private state variables
+
+            var self = this;
+            var ws;
+            var forcedClose = false;
+            var timedOut = false;
+            var eventTarget = document.createElement('div');
+
+            // Wire up "on*" properties as event handlers
+
+            eventTarget.addEventListener('open', function (event) { self.onopen(event); });
+            eventTarget.addEventListener('close', function (event) { self.onclose(event); });
+            eventTarget.addEventListener('connecting', function (event) { self.onconnecting(event); });
+            eventTarget.addEventListener('message', function (event) { self.onmessage(event); });
+            eventTarget.addEventListener('error', function (event) { self.onerror(event); });
+
+            // Expose the API required by EventTarget
+
+            this.addEventListener = eventTarget.addEventListener.bind(eventTarget);
+            this.removeEventListener = eventTarget.removeEventListener.bind(eventTarget);
+            this.dispatchEvent = eventTarget.dispatchEvent.bind(eventTarget);
+
+            /**
+             * This function generates an event that is compatible with standard
+             * compliant browsers and IE9 - IE11
+             *
+             * This will prevent the error:
+             * Object doesn't support this action
+             *
+             * http://stackoverflow.com/questions/19345392/why-arent-my-parameters-getting-passed-through-to-a-dispatched-event/19345563#19345563
+             * @param s String The name that the event should use
+             * @param args Object an optional object that the event will use
+             */
+            function generateEvent(s, args) {
+                var evt = document.createEvent("CustomEvent");
+                evt.initCustomEvent(s, false, false, args);
+                return evt;
+            };
+
+            this.open = function (reconnectAttempt) {
+                ws = new WebSocket(self.url, protocols || []);
+                ws.binaryType = this.binaryType;
+
+                if (reconnectAttempt) {
+                    if (this.maxReconnectAttempts && this.reconnectAttempts > this.maxReconnectAttempts) {
+                        return;
+                    }
+                } else {
+                    eventTarget.dispatchEvent(generateEvent('connecting'));
+                    this.reconnectAttempts = 0;
+                }
+
+                if (self.debug || ReconnectingWebSocket.debugAll) {
+                    console.debug('ReconnectingWebSocket', 'attempt-connect', self.url);
+                }
+
+                var localWs = ws;
+                var timeout = setTimeout(function () {
+                    if (self.debug || ReconnectingWebSocket.debugAll) {
+                        console.debug('ReconnectingWebSocket', 'connection-timeout', self.url);
+                    }
+                    timedOut = true;
+                    localWs.close();
+                    timedOut = false;
+                }, self.timeoutInterval);
+
+                ws.onopen = function (event) {
+                    clearTimeout(timeout);
+                    if (self.debug || ReconnectingWebSocket.debugAll) {
+                        console.debug('ReconnectingWebSocket', 'onopen', self.url);
+                    }
+                    self.protocol = ws.protocol;
+                    self.readyState = WebSocket.OPEN;
+                    self.reconnectAttempts = 0;
+                    var e = generateEvent('open');
+                    e.isReconnect = reconnectAttempt;
+                    reconnectAttempt = false;
+                    eventTarget.dispatchEvent(e);
+                };
+
+                ws.onclose = function (event) {
+                    clearTimeout(timeout);
+                    ws = null;
+                    if (forcedClose) {
+                        self.readyState = WebSocket.CLOSED;
+                        eventTarget.dispatchEvent(generateEvent('close'));
+                    } else {
+                        self.readyState = WebSocket.CONNECTING;
+                        var e = generateEvent('connecting');
+                        e.code = event.code;
+                        e.reason = event.reason;
+                        e.wasClean = event.wasClean;
+                        eventTarget.dispatchEvent(e);
+                        if (!reconnectAttempt && !timedOut) {
+                            if (self.debug || ReconnectingWebSocket.debugAll) {
+                                console.debug('ReconnectingWebSocket', 'onclose', self.url);
+                            }
+                            eventTarget.dispatchEvent(generateEvent('close'));
+                        }
+
+                        var timeout = self.reconnectInterval * Math.pow(self.reconnectDecay, self.reconnectAttempts);
+                        setTimeout(function () {
+                            self.reconnectAttempts++;
+                            self.open(true);
+                        }, timeout > self.maxReconnectInterval ? self.maxReconnectInterval : timeout);
+                    }
+                };
+                ws.onmessage = function (event) {
+                    if (self.debug || ReconnectingWebSocket.debugAll) {
+                        console.debug('ReconnectingWebSocket', 'onmessage', self.url, event.data);
+                    }
+                    var e = generateEvent('message');
+                    e.data = event.data;
+                    eventTarget.dispatchEvent(e);
+                };
+                ws.onerror = function (event) {
+                    if (self.debug || ReconnectingWebSocket.debugAll) {
+                        console.debug('ReconnectingWebSocket', 'onerror', self.url, event);
+                    }
+                    eventTarget.dispatchEvent(generateEvent('error'));
+                };
+            }
+
+            // Whether or not to create a websocket upon instantiation
+            if (this.automaticOpen == true) {
+                this.open(false);
+            }
+
+            /**
+             * Transmits data to the server over the WebSocket connection.
+             *
+             * @param data a text string, ArrayBuffer or Blob to send to the server.
+             */
+            this.send = function (data) {
+                if (ws) {
+                    if (self.debug || ReconnectingWebSocket.debugAll) {
+                        console.debug('ReconnectingWebSocket', 'send', self.url, data);
+                    }
+                    return ws.send(data);
+                } else {
+                    throw 'INVALID_STATE_ERR : Pausing to reconnect websocket';
+                }
+            };
+
+            /**
+             * Closes the WebSocket connection or connection attempt, if any.
+             * If the connection is already CLOSED, this method does nothing.
+             */
+            this.close = function (code, reason) {
+                // Default CLOSE_NORMAL code
+                if (typeof code == 'undefined') {
+                    code = 1000;
+                }
+                forcedClose = true;
+                if (ws) {
+                    ws.close(code, reason);
+                }
+            };
+
+            /**
+             * Additional public API method to refresh the connection if still open (close, re-open).
+             * For example, if the app suspects bad data / missed heart beats, it can try to refresh.
+             */
+            this.refresh = function () {
+                if (ws) {
+                    ws.close();
+                }
+            };
+        }
+
+        /**
+         * An event listener to be called when the WebSocket connection's readyState changes to OPEN;
+         * this indicates that the connection is ready to send and receive data.
+         */
+        ReconnectingWebSocket.prototype.onopen = function (event) { };
+        /** An event listener to be called when the WebSocket connection's readyState changes to CLOSED. */
+        ReconnectingWebSocket.prototype.onclose = function (event) { };
+        /** An event listener to be called when a connection begins being attempted. */
+        ReconnectingWebSocket.prototype.onconnecting = function (event) { };
+        /** An event listener to be called when a message is received from the server. */
+        ReconnectingWebSocket.prototype.onmessage = function (event) { };
+        /** An event listener to be called when an error occurs. */
+        ReconnectingWebSocket.prototype.onerror = function (event) { };
+
+        /**
+         * Whether all instances of ReconnectingWebSocket should log debug messages.
+         * Setting this to true is the equivalent of setting all instances of ReconnectingWebSocket.debug to true.
+         */
+        ReconnectingWebSocket.debugAll = false;
+
+        ReconnectingWebSocket.CONNECTING = WebSocket.CONNECTING;
+        ReconnectingWebSocket.OPEN = WebSocket.OPEN;
+        ReconnectingWebSocket.CLOSING = WebSocket.CLOSING;
+        ReconnectingWebSocket.CLOSED = WebSocket.CLOSED;
+    </script>
+    <script language="javascript">
+        var protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        var ws = new ReconnectingWebSocket(protocol + "//" + window.location.host + "${wsPath}");
+
+        function isArray(value) {
+            return Object.prototype.toString.call(value) === '[object Array]';
+        }
+
+        ws.onopen = function open() {
+            console.log("%c-- websocket opened --", "color: #0E3E22; background: #01FF70"); // LIME
+        };
+
+        ws.onclose = function close() {
+            console.log("%c-- websocket closed --", "color: #662F05; background: #FF851B"); // ORANGE
+        };
+
+        ws.onerror = function error(e) {
+            console.log("%c-- websocket error -- ", "color: #8F0600; background: #FF4136"); // RED
+            return false;
+        };
+
+        ws.onmessage = function (event) {
+            var msg;
+            var logtarget = console.log.bind(console);
+            var outputArgs = [];
+            outputArgs.push(""); // will hold placeholders and color strings..
+
+            // use these color palette: http://clrs.cc/
+
+            try {
+                msg = JSON.parse(event.data);
+
+                if (msg.level) {
+                    if (msg.level === 30) {
+                        logtarget = console.info.bind(console);
+                    }
+
+                    if (msg.level === 40) {
+                        logtarget = console.warn.bind(console);
+                    }
+
+                    if (msg.level > 40) {
+                        logtarget = console.error.bind(console);
+                    }
+                }
+
+                // some fields in the log have absolute priority!
+                // directly extract them from the output and log them to make them "easier seen" for developers
+
+                outputArgs[0] += "%c%s"; // append the new needed placeholders
+                outputArgs.push("color: #111;"); // BLACK
+
+                if (msg.timestamp) {
+                    outputArgs.push(new Date(msg.timestamp).toISOString());
+                } else {
+                    outputArgs.push(new Date().toISOString()); // always supply date to the log output.
+                }
+
+                if (msg.event && msg.event !== "response") { // must events are response, dont include these
+                    outputArgs[0] += "%c %s"; // append the new needed placeholders
+                    outputArgs.push("color: #85144b;"); // MAROON
+                    outputArgs.push(msg.event);
+                }
+
+                if (msg.method) {
+
+                    outputArgs[0] += "%c %s"; // append the new needed placeholders
+
+                    var lowerMethod = typeof msg.method === "string" ? msg.method.toLowerCase() : msg.method;
+                    if (lowerMethod === "get") {
+                        outputArgs.push("color: #0074D9;"); // BLUE
+                    } else if (lowerMethod === "post") {
+                        outputArgs.push("color: #001f3f;"); // NAVY
+                    } else if (lowerMethod === "patch") {
+                        outputArgs.push("color: #39CCCC;"); // TEAL
+                    } else if (lowerMethod === "put") {
+                        outputArgs.push("color: #3D9970;"); // OLIVE
+                    } else if (lowerMethod === "delete") {
+                        outputArgs.push("color: #AAAAAA;"); // GRAY
+                    } else {
+                        outputArgs.push("color: #7FDBFF;"); // AQUA
+                    }
+
+                    outputArgs.push(msg.method);
+                }
+
+                if (msg.statusCode) {
+                    outputArgs[0] += "%c %d"; // append the new needed placeholders
+                    if (msg.statusCode >= 400 && msg.statusCode < 500) {
+                        outputArgs.push("color: #FF851B;"); // ORANGE
+                    } else if (msg.statusCode >= 500) {
+                        outputArgs.push("color: #FF4136;"); // RED
+                    } else {
+                        outputArgs.push("color: #2ECC40;"); // GREEN
+                    }
+                    outputArgs.push(msg.statusCode);
+                }
+
+                if (msg.path) {
+                    outputArgs[0] += "%c %s"; // append the new needed placeholders
+                    outputArgs.push("color: #B10DC9;"); // PURPLE
+                    outputArgs.push(msg.path);
+                }
+
+                if (msg.headers && msg.headers["user-agent"]) {
+                    outputArgs[0] += "%c %s"; // append the new needed placeholders
+                    outputArgs.push("font-size: smaller; font-style: italic; color: #333;");
+                    outputArgs.push(msg.headers["user-agent"]);
+                } else if (msg.source && msg.source.userAgent) {
+                    // legacy: if no headers, check for source object key
+                    outputArgs[0] += "%c %s"; // append the new needed placeholders
+                    outputArgs.push("font-size: smaller; font-style: italic; color: #333;");
+                    outputArgs.push(msg.source.userAgent);
+                }
+
+                // GraphQL specific: properly format mutations and queries so it's immediately useful for developers
+                if (msg.path && msg.path.indexOf("graphql") !== -1) {
+
+                    outputArgs[0] += "${'\\n'}%c%s"; // append the new needed placeholders
+                    outputArgs.push("color: #73BFFF"); // NAVY BG
+                    outputArgs.push("> GraphQL");
+
+                    var parsedGraphQLResponse = null;
+
+                    if (msg.responsePayload) {
+                        outputArgs[0] += " %s %o";
+                        outputArgs.push("response");
+                        parsedGraphQLResponse = JSON.parse(msg.responsePayload);
+                        outputArgs.push(parsedGraphQLResponse);
+
+                        if (parsedGraphQLResponse.errors && parsedGraphQLResponse.errors.length > 0) {
+                            outputArgs[0] += "%c %s %o";
+                            outputArgs.push("font-size: smaller; font-style: italic; color: #FF4136;"); // RED
+                            outputArgs.push("errors");
+                            outputArgs.push(parsedGraphQLResponse.errors);
+                        }
+                    }
+
+                    function parseGraphQLItem(item, index) {
+                        if (item.operationName) {
+                            outputArgs[0] += "%c${'\\n'}* %s"; // append the new needed placeholders
+                            outputArgs.push("font-size: smaller; font-style: italic; color: #FF851B;"); // ORANGE
+                            outputArgs.push(item.operationName);
+
+                            // push the variables used for the query...
+                            if (item.variables) {
+                                outputArgs[0] += "%c %s %o";
+                                outputArgs.push("font-size: smaller; font-style: italic; color: #2ECC40;"); // GREEN
+                                outputArgs.push("variables");
+                                outputArgs.push(item.variables);
+                            }
+
+                            if (item.query) {
+                                outputArgs[0] += "%c %s %o";
+                                outputArgs.push("font-size: smaller; font-style: italic; color: #0074D9;"); // BLUE
+                                outputArgs.push("query");
+                                outputArgs.push({ query: item.query });
+                            }
+
+                            if (index & isArray(parsedGraphQLResponse) && parsedGraphQLResponse[index]) {
+                                outputArgs[0] += "%c %s %o";
+                                outputArgs.push("font-size: smaller; font-style: italic; color: #73BFFF;"); // NAVY
+                                outputArgs.push("response");
+                                outputArgs.push(parsedGraphQLResponse[index]);
+                            }
+                        }
+                    }
+
+                    // extract useful graphql debug information (name of queries) from an array of queries...
+                    if (msg.requestPayload && isArray(msg.requestPayload) && msg.requestPayload.length > 0) {
+                        // for arrays....
+                        msg.requestPayload.forEach(function (item, index) {
+                            parseGraphQLItem(item, index);
+                        });
+
+                        // finally append a line break.
+                        outputArgs[0] += "${'\\n'}%s"; // append the new needed placeholders
+                        outputArgs.push("");
+                    }
+
+                    // single gql operation
+                    if (msg.requestPayload && msg.requestPayload.query && msg.requestPayload.operationName) {
+                        parseGraphQLItem(msg.requestPayload);
+
+                        // finally append a line break.
+                        outputArgs[0] += "${'\\n'}%s"; // append the new needed placeholders
+                        outputArgs.push("");
+                    }
+                }
+
+                // check if we received a server config object and format this accordinglic
+                if (msg.__IS_SERVER_INFO__) {
+
+                    delete msg.__IS_SERVER_INFO__; // rm.
+
+                    if (msg.started && msg.uptime) {
+                        outputArgs[0] += " %c-- Server info: Started: %s Uptime: %s --"; // append the new needed placeholders
+                        outputArgs.push("color: #73BFFF; background: #001F3F"); // NAVY BG
+                        outputArgs.push(msg.started);
+                        outputArgs.push(msg.uptime);
+                    } else {
+                        // no uptime info received.
+                        outputArgs[0] += " %c-- Server info --"; // append the new needed placeholders
+                        outputArgs.push("color: #73BFFF; background: #001F3F"); // NAVY BG
+                    }
+                }
+
+                // prefinally if nothing is currently inside our output (apart from the placeholder, css and date), try to get a msg property and use that!
+                if (outputArgs.length === 3 && msg.msg) {
+                    outputArgs[0] += "%c %s"; // append the new needed placeholders
+                    outputArgs.push("color: #0074D9;"); // BLUE
+                    outputArgs.push(msg.msg);
+                }
+
+                // finally also supply the full source object, so devs can inject it!
+                outputArgs[0] += " %o";
+                outputArgs.push(msg);
+
+            } catch (e) {
+                msg = event.data;
+                outputArgs[0] += "%c%s"; // append the new needed placeholders
+                outputArgs.push("color: #111;"); // BLACK
+                outputArgs.push(new Date().toISOString()); // always supply date to the log output.
+
+                // finally supply the full source object!
+                outputArgs[0] += " %o";
+                outputArgs.push(msg); // just supply the full source, silently dismiss JSON parsing errors
+            }
+
+            logtarget.apply(logtarget, outputArgs);
+        };
+    </script>
+</body>
+
+</html>

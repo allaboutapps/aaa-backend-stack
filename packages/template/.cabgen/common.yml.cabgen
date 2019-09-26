@@ -1,0 +1,34 @@
+#
+# Base definition of the service. Reused in all docker-compose configs
+#
+version: "2"
+services:
+  service:
+    build: .
+    image: <%= CAB_DOCKER_IMAGE_TAG %>
+    ports:
+      - "8080:8080"
+    # environment: # deactivated, env is used by default
+
+  postgres:
+    image: postgres:9.4
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=<%= CAB_POSTGRES_USER %>
+      - POSTGRES_PASSWORD=<%= CAB_POSTGRES_PASSWORD %>
+      - POSTGRES_DB=<%= CAB_POSTGRES_DB %>
+
+  postgres-test:
+    image: postgres:9.4
+    command: postgres -c config_file=/etc/postgresql.conf
+    volumes:
+      - ./docker/postgres_test/postgresql.conf:/etc/postgresql.conf
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=<%= CAB_POSTGRES_USER %>
+      - POSTGRES_PASSWORD=<%= CAB_POSTGRES_PASSWORD %>
+      - POSTGRES_DB=<%= CAB_POSTGRES_TEST_DB %>

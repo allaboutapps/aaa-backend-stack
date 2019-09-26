@@ -1,0 +1,5 @@
+import * as REST from "@aaa-backend-stack/rest";
+
+export default new REST.StaticController([{
+    ROUTE_CONFIGURATION
+}]);

@@ -1,0 +1,13 @@
+git_branch: master
+file_env: files/service-none.env.j2
+
+database:
+  user: dbuser
+  password: dbpass
+  databases:
+  - mydb1
+  - mydb-test
+
+pghero:
+  user: admin
+  password: 9ab260e9

@@ -1,0 +1,17 @@
+import * as REST from "@aaa-backend-stack/rest";
+
+@REST.controller("/api/v1")
+class MY_UNIQUELY_NAMED_RESTFUL_CONTROLLER_CLASS extends REST.SERVER.MethodController {
+
+    @REST.get("/MY_URL")
+    @REST.documentation({
+        description: "MY_DESCRIPTION",
+    })
+    @REST.autoReply
+    async handler(request: REST.HAPI.Request) {
+        return {};
+    }
+
+}
+
+export default new MY_UNIQUELY_NAMED_RESTFUL_CONTROLLER_CLASS();

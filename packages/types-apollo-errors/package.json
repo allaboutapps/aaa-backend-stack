@@ -1,0 +1,19 @@
+{
+  "name": "@types/apollo-errors",
+  "version": "1.15.0",
+  "description": "TypeScript definitions for apollo-errors",
+  "license": "MIT",
+  "author": "Mario Ranftl <https://github.com/majodev>",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"
+  },
+  "scripts": {
+    "check-package-strict-version": "echo 'noop'",
+    "clean": "echo 'noop'",
+    "test": "exit 0"
+  },
+  "resolutions": {},
+  "typeScriptVersion": "2.3.4"
+}

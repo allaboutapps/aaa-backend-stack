@@ -1,0 +1,78 @@
+---
+- hosts: all
+  gather_facts: false
+  become: true
+
+  tasks:
+
+  # Uninstall global npm modules (if defined)
+  - name: Uninstall required global node modules
+    npm: name={{ item.name }} version={{ item.version }} global=yes state=absent
+    with_items: "{{ npm_packages }}"
+    when: npm_packages is defined
+
+  # Uninstall old packages...
+  - name: Uninstall npm
+    yum: name=npm state=absent
+
+  - name: Uninstall nodejs
+    yum: name=nodejs state=absent
+
+  # Remove previous nodesource repos
+  - name: Remove previous nodesource-el.repo repository
+    file:
+      path: "/etc/yum.repos.d/nodesource-el.repo"
+      state: absent
+
+  # Setup NodeJS Repo -- see https://github.com/nodesource/distributions#installation-instructions-1
+  - name: Install NodeJS 8.x (LTS) Repository
+    shell: "curl -sL https://rpm.nodesource.com/setup_8.x | bash -"
+
+  # Clean yum metdata
+  - name: yum-clean-metadata
+    command: yum clean metadata
+    args:
+      warn: no
+
+  # Clean yum cache
+  - name: yum-clean-all
+    command: yum clean all
+    args:
+      warn: no
+
+  # Install NodeJS
+  - name: Install NodeJS (LTS)
+    yum: name=nodejs state=latest enablerepo=nodesource
+
+  # Reinstall yarn
+  - name: Reinstall Yarn Repository
+    yum_repository:
+      name: yarn
+      description: Yarn Repository
+      baseurl: https://dl.yarnpkg.com/rpm/
+      gpgkey: https://dl.yarnpkg.com/rpm/pubkey.gpg
+      gpgcheck: yes
+
+  - name: Reinstall Yarn
+    yum: name=yarn state=present
+
+  # Install global NodeJS modules
+  - name: Reinstall required global node modules
+    npm: name={{ item.name }} version={{ item.version }} global=yes state=present
+    with_items: "{{ npm_packages }}"
+    when: npm_packages is defined
+
+  # Remove node_modules in project dir (don't use the file ansible arg here!)...
+  - name: Remove local node_modules from project dir...
+    command: "rm -rf {{ code_root }}/node_modules"
+
+  - name: Reinstall local node modules as defined in yarn.lock
+    shell: yarn --pure-lockfile chdir={{ code_root }}
+
+  - name: yarn build
+    shell: yarn build chdir={{ code_root }}
+
+  - name: restart backend service
+    service: name={{ project_name }} state=restarted
+    become_user: root
+    when: '"vm" not in group_names'

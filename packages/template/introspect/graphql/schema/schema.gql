@@ -1,0 +1,80 @@
+schema {
+  query: RootQueryType
+  mutation: Mutation
+}
+
+# A AppUserProfile instance
+type AppUserProfile {
+  UserUid: UUID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  # The ID of an object
+  id: ID!
+
+  # Resolves a single User instance. 
+  user(uid: UUID): User
+}
+
+# A special custom Scalar type for Dates that converts to a ISO 8601 formatted String (YYYY-MM-DDTHH:mm:ss.sssZ)
+# Might throw 'INVALID_GRAPHQL_DATE_TIME'.
+scalar DateTime
+
+# This special 'Mutation' node wraps all available mutations this service provides (ways to mutate data).
+type Mutation {
+  # Throws a test error
+  testError: Boolean
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# A Permission instance
+type Permission {
+  uid: UUID!
+  scope: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  # The ID of an object
+  id: ID!
+
+  # Resolves a list of Users .
+  users(uid: UUID): [User]
+}
+
+# This special 'RootQueryType' node wraps all available queries this service provides (ways to get data).
+type RootQueryType {
+  # Resolves a single User instance. 
+  # Might throw 'ENTITY_NOT_FOUND'.
+  me: User
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+# A User instance
+type User {
+  uid: UUID!
+  username: String
+  isActive: Boolean
+
+  # The ID of an object
+  id: ID!
+
+  # Resolves a single AppUserProfile instance. 
+  appUserProfile(UserUid: UUID): AppUserProfile
+
+  # Resolves a list of Permissions .
+  permissions(uid: UUID): [Permission]
+}
+
+# A special custom Scalar type for UUID (all versions) that directly converts to String
+# Might throw 'INVALID_UUID'.
+scalar UUID

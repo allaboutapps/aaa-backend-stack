@@ -1,0 +1,9 @@
+import * as REST from "@aaa-backend-stack/rest";
+
+const hook: REST.SERVER.IHook = {
+    async init(api) {
+        ...
+    }
+};
+
+export default hook;
