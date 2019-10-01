@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/logger",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "Bunyan logger interface implementation, hapi plugin, file rotation and email error reporting setup",
   "license": "MIT",
   "author": "all about apps",
@@ -19,9 +19,9 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.15.0",
-    "@aaa-backend-stack/git-info": "^1.15.0",
-    "@aaa-backend-stack/serverdate": "^1.15.0",
+    "@aaa-backend-stack/build-tools": "^1.16.0",
+    "@aaa-backend-stack/git-info": "^1.16.0",
+    "@aaa-backend-stack/serverdate": "^1.16.0",
     "@types/bunyan": "0.0.30",
     "@types/lodash": "4.14.50",
     "@types/nodemailer": "1.3.32",
@@ -35,10 +35,13 @@
     "safe-json-stringify": "1.1.0"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^1.15.0",
-    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "@aaa-backend-stack/test-environment": "^1.16.0",
+    "@aaa-backend-stack/tslint-rules": "^1.16.0",
     "tslint": "5.11.0",
     "typescript": "2.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "resolutions": {
     "@types/bunyan": "0.0.30",

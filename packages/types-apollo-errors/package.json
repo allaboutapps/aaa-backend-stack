@@ -1,6 +1,7 @@
 {
   "name": "@types/apollo-errors",
-  "version": "1.15.0",
+  "version": "1.16.0",
+  "private": true,
   "description": "TypeScript definitions for apollo-errors",
   "license": "MIT",
   "author": "Mario Ranftl <https://github.com/majodev>",

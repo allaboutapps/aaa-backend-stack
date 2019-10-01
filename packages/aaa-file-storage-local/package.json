@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/file-storage-local",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "File storage service implementation using local file system",
   "license": "MIT",
   "author": "all about apps",
@@ -16,20 +16,23 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.15.0",
-    "@aaa-backend-stack/file-storage": "^1.15.0",
-    "@aaa-backend-stack/logger": "^1.15.0",
-    "@aaa-backend-stack/utils": "^1.15.0",
+    "@aaa-backend-stack/build-tools": "^1.16.0",
+    "@aaa-backend-stack/file-storage": "^1.16.0",
+    "@aaa-backend-stack/logger": "^1.16.0",
+    "@aaa-backend-stack/utils": "^1.16.0",
     "@types/lodash": "4.14.50",
     "@types/url-join": "0.8.2",
     "lodash": "4.17.10",
     "url-join": "4.0.0"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^1.15.0",
-    "@aaa-backend-stack/tslint-rules": "^1.15.0",
+    "@aaa-backend-stack/test-environment": "^1.16.0",
+    "@aaa-backend-stack/tslint-rules": "^1.16.0",
     "tslint": "5.11.0",
     "typescript": "2.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "resolutions": {
     "@types/lodash": "4.14.50",

@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/tslint-rules",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "aaa internal tslint rules",
   "license": "MIT",
   "author": "all about apps",
@@ -22,6 +22,9 @@
     "rimraf": "2.6.1",
     "tslint": "5.11.0",
     "typescript": "2.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "resolutions": {
     "@types/node": "8.5.8"
