@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/example-lib",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "private": true,
   "description": "Example Lib",
   "license": "MIT",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@aaa-backend-stack/build-tools": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.0"
+    "@aaa-backend-stack/utils": "^1.16.1"
   },
   "devDependencies": {
     "@aaa-backend-stack/test-environment": "^1.16.0",

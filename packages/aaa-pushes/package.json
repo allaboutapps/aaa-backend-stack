@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/pushes",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "Push notification lib",
   "license": "MIT",
   "author": "all about apps",
@@ -19,7 +19,7 @@
     "@aaa-backend-stack/build-tools": "^1.16.0",
     "@aaa-backend-stack/logger": "^1.16.0",
     "@aaa-backend-stack/serverdate": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.0",
+    "@aaa-backend-stack/utils": "^1.16.1",
     "@types/lodash": "4.14.50",
     "@types/node-fetch": "1.6.7",
     "apn": "2.1.2",

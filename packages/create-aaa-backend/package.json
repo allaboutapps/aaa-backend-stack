@@ -1,6 +1,6 @@
 {
   "name": "create-aaa-backend",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "create-aaa-backend global cli. Used for scaffolding new aaa backend projects",
   "license": "MIT",
   "author": "all about apps",
@@ -22,7 +22,7 @@
   "dependencies": {
     "@aaa-backend-stack/build-tools": "^1.16.0",
     "@aaa-backend-stack/polyfills": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.0",
+    "@aaa-backend-stack/utils": "^1.16.1",
     "@types/inquirer": "0.0.35",
     "@types/lodash": "4.14.50",
     "generate-password": "1.3.0",
