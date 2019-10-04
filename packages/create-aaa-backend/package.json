@@ -1,6 +1,6 @@
 {
   "name": "create-aaa-backend",
-  "version": "1.16.1",
+  "version": "1.16.2",
   "description": "create-aaa-backend global cli. Used for scaffolding new aaa backend projects",
   "license": "MIT",
   "author": "all about apps",

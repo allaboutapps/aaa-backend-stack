@@ -103,8 +103,9 @@ local$ yarn global add create-aaa-backend && create-aaa-backend scaffold -y --de
 ### Pushing to public github
 ```bash
 # 1. Merge into master-github branch
-local$ git checkout master-github
-local$ git merge --allow-unrelated-histories --squash master
+local$ git checkout master-github
+local$ git merge --strategy-option theirs --allow-unrelated-histories --squash master
+local$ git commit -m "merge latest"
 
 # 2. Tag the version using same version number as on master without the v (e.g. v1.16.1 -> 1.16.1)
 local$ git tag 1.16.1
