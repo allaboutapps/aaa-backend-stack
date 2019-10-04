@@ -118,7 +118,8 @@ async function cloneMonorepo({ tmpClonePath, backendStackRepo, useBranch }) {
     const clone: (repo: string, workdir: string, args: any[]) => Promise<any> = Promise.promisify(simpleGit.clone, { context: simpleGit });
     const pull: (remote: string, branch: string) => Promise<any> = Promise.promisify(simpleGit.pull, { context: simpleGit });
     const checkoutLatestTag: () => Promise<any> = Promise.promisify(simpleGit.checkoutLatestTag, { context: simpleGit });
-    const describe: () => Promise<string> = Promise.promisify(simpleGit.raw, { context: simpleGit }).bind(simpleGit, ["describe"]);
+    const describe: () => Promise<string> = Promise.promisify(simpleGit.raw, { context: simpleGit }).bind(simpleGit, ["describe", "--tags"]);
+    const describeNotAnnotated: () => Promise<string> = Promise.promisify(simpleGit.raw, { context: simpleGit }).bind(simpleGit, ["describe", "--tags"]);
 
     CLI.debug(`Cloning aaa-backend-stack tag from ${backendStackRepo} to tmp dir ./${tmpClonePath}...`);
     await clone(backendStackRepo, ".", []);
@@ -131,7 +132,13 @@ async function cloneMonorepo({ tmpClonePath, backendStackRepo, useBranch }) {
         await pull("origin", useBranch);
     }
 
-    const tag = await describe();
+    let tag;
+    try {
+        tag = await describe();
+    } catch (err) {
+        tag = await describeNotAnnotated();
+    }
+
 
     CLI.info(`On ${useBranch ? "branch " + useBranch + " - " : ""}aaa-backend-stack@${tag}`);
 }

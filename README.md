@@ -100,6 +100,20 @@ local$ yarn global add create-aaa-backend && create-aaa-backend scaffold -y --de
 
 ```
 
+### Pushing to public github
+```bash
+# 1. Merge into master-github branch
+local$ git checkout master-github
+local$ git merge --allow-unrelated-histories --squash master
+
+# 2. Tag the version using same version number as on master without the v (e.g. v1.16.1 -> 1.16.1)
+local$ git tag 1.16.1
+
+# 3. Push to github
+local$ git push origin-github
+local$ git push origin-github 1.16.1
+```
+
 ### I want to add a dependency
 
 1. Add it to the respective `package.json` of the package and run `yarn bootstrap`. The dependency is now available in our package.

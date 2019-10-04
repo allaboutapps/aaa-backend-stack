@@ -30,7 +30,7 @@ defineCLIEnvironment({
         panicOnDockerSetupError: ["p", "panic on docker setup encountered error (useful for ci)"],
         local: ["l", "instead of using git operations, simply copy from the local filesystem (only works through yarn create-aaa-backend inside the aaa-backend-stack monorepo)"],
         // TODO-OSS: change this to https, not ssh (else the clone might not work for users without ssh keys)
-        backendStackRepo: [null, "(internal) git aaa-backend-stack monorepo", "string", "ssh://git@github.com:allaboutapps/aaa-backend-stack.git"],
+        backendStackRepo: [null, "(internal) git aaa-backend-stack monorepo", "string", "https://github.com/allaboutapps/aaa-backend-stack.git"],
         backendStackTemplate: [null, "(internal) relative path to template package in monorepo", "string", "/packages/template"],
         backendStackGenerator: [null, "(internal) relative path to create-aaa-backend package in monorepo", "string", "/packages/create-aaa-backend"],
     },
