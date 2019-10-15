@@ -27,7 +27,7 @@ RUN rm -f /usr/local/bin/yarn && \
 # First only copy the package.json, yarn.lock, .yarnrc files + install all deps WITHOUT executing any scripts
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
-COPY .yarnrc /app/.yarnrc
+#COPY .yarnrc /app/.yarnrc -> not needed anymore, now that we are in public registry
 # `--production=false` is required since the default node image sets `NODE_ENV production`, which causes yarn to not install any devDependencies
 RUN yarn install --pure-lockfile --production=false 
 

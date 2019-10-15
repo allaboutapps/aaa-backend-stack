@@ -10,9 +10,6 @@ const resolutions = {};
 
 // these dependency pattern to allow to use non strict versions (internal typings)
 const EXCLUDE_PATTERNS = [
-    "@types/graphql-sequelize",
-    "@types/zxcvbn",
-    "@types/apollo-errors"
 ];
 
 function checkCanBeExcluded(dependency) {

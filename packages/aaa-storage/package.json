@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/storage",
-  "version": "1.16.1",
+  "version": "1.16.4",
   "description": "Storage Package Abstraction",
   "license": "MIT",
   "author": "all about apps",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@aaa-backend-stack/build-tools": "^1.16.0",
     "@aaa-backend-stack/logger": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.1",
+    "@aaa-backend-stack/utils": "^1.16.4",
     "@types/bluebird": "3.5.8",
     "@types/bluebird-global": "3.5.3",
     "@types/bluebird-retry": "0.0.33",

@@ -9,10 +9,7 @@ const dirs = FS_EXTRA.readdirSync(path.resolve(__dirname, "../node_modules/@type
 _.each(dirs, (dir) => {
     const absoluteDir = path.resolve(__dirname, "../node_modules/@types", dir);
 
-    if (fs.statSync(absoluteDir).isDirectory() === false
-        || dir === "apollo-errors"
-        || dir === "zxcvbn"
-        || dir === "graphql-sequelize") {
+    if (fs.statSync(absoluteDir).isDirectory() === false) {
         return;
     }
 

@@ -5,7 +5,7 @@ import * as Sequelize from "sequelize";
 import * as GQL from "graphql";
 import * as GQLS from "graphql-sequelize";
 import * as _ from "lodash";
-import { IApolloErrorConstructor } from "apollo-errors";
+import { IApolloErrorConstructor } from "@aaa-backend-stack/graphql";
 
 import * as internalErrors from "./internalErrors";
 import SequelizeGraphQLObjectType from "./SequelizeGraphQLObjectType";

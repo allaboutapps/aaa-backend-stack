@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/graphql",
-  "version": "1.16.1",
+  "version": "1.16.6",
   "description": "GraphQL Layer",
   "license": "MIT",
   "author": "all about apps",
@@ -21,7 +21,7 @@
   "dependencies": {
     "@aaa-backend-stack/build-tools": "^1.16.0",
     "@aaa-backend-stack/logger": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.1",
+    "@aaa-backend-stack/utils": "^1.16.4",
     "@types/bluebird": "3.5.8",
     "@types/bluebird-global": "3.5.3",
     "@types/graphql": "0.9.4",
@@ -29,7 +29,7 @@
     "@types/lodash": "4.14.50",
     "@types/sequelize": "4.0.39",
     "apollo-codegen": "0.13.2",
-    "apollo-errors": "1.4.0",
+    "apollo-errors": "1.9.0",
     "bluebird": "3.5.0",
     "dataloader-sequelize": "1.5.1",
     "graphql": "0.10.5",
@@ -43,8 +43,6 @@
   "devDependencies": {
     "@aaa-backend-stack/test-environment": "^1.16.0",
     "@aaa-backend-stack/tslint-rules": "^1.16.0",
-    "@types/apollo-errors": "^1.16.0",
-    "@types/graphql-sequelize": "^1.16.0",
     "tslint": "5.11.0",
     "typescript": "2.9.2"
   },

@@ -8,13 +8,17 @@ export { GQL };
 export { GQLS };
 export { APOLLO_ERRORS };
 export { GraphQLSchema, GraphQLError } from "graphql";
+
 export {
     createError,
     formatError as formatApolloError,
     isInstance as isApolloErrorInstance,
-    IApolloError,
-    IApolloErrorConstructor
+    ApolloError,
 } from "apollo-errors";
+
+import { ApolloError } from "apollo-errors";
+export type IApolloErrorConstructor = new (data?: object) => ApolloError;
+
 export { gqlTag };
 export { buildClientSchema, introspectionQuery, printSchema } from "graphql";
 export { fromGlobalId, toGlobalId } from "graphql-relay";
@@ -57,10 +61,8 @@ export { testUtilsNamespace as gqlTestUtils };
 // Defines which dependencies this package owns (and thus these should not be required by the actual service)
 // Thus this package must ensure the proper functioning of the external dep within the whole stack
 export const __OWNS__ = [
-    "@types/apollo-errors",
     "@types/graphql",
     "@types/graphql-relay",
-    "@types/graphql-sequelize",
     // "@playlyfe/gql", // gql visual studio code tools, will not be actually required by projects
     "apollo-codegen",
     "apollo-errors",

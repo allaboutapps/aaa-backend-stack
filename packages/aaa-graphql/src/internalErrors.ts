@@ -1,5 +1,6 @@
 import * as _ from "lodash";
-import { createError, IApolloErrorConstructor } from "apollo-errors";
+import { createError } from "apollo-errors";
+import { IApolloErrorConstructor } from "@aaa-backend-stack/graphql";
 
 export const ENTITY_NOT_FOUND = createError("ENTITY_NOT_FOUND", {
     message: "The referenced entity was not found"

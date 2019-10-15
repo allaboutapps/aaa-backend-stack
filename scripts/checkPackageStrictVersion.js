@@ -10,9 +10,6 @@ const res = [];
 // these dependency pattern to allow to use non strict versions
 const EXCLUDE_PATTERNS = [
     "@aaa-backend-stack/",
-    "@types/graphql-sequelize",
-    "@types/zxcvbn",
-    "@types/apollo-errors",
     "template-aaa-backend"
 ];
 

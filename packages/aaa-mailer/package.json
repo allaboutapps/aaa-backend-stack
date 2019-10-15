@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/mailer",
-  "version": "1.16.1",
+  "version": "1.16.4",
   "description": "Example Lib",
   "license": "MIT",
   "author": "all about apps",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@aaa-backend-stack/build-tools": "^1.16.0",
     "@aaa-backend-stack/logger": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.1",
+    "@aaa-backend-stack/utils": "^1.16.4",
     "@types/lodash": "4.14.50",
     "@types/nodemailer": "1.3.32",
     "handlebars": "4.0.6",

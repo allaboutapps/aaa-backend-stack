@@ -1,5 +1,9 @@
 ### Master
 * ...
+
+### 1.16.0 - 1.16.6
+* Fixes for first fully working oss version
+
 ### 1.15.13
 * template: cabgen
     * add pghero pw
