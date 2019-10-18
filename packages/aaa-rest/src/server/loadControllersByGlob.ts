@@ -9,7 +9,7 @@ import * as _ from "lodash";
 
 import { RouteConfiguration } from "hapi";
 
-export async function loadControllersByGlob(pattern: string, cwd: string): Promise<[RouteConfiguration[]]> {
+export async function loadControllersByGlob(pattern: string, cwd: string): Promise<Array<RouteConfiguration[]>> {
     const controllerFiles = await GLOB_PROMISE(pattern, { cwd });
 
     logger.debug({
@@ -18,7 +18,7 @@ export async function loadControllersByGlob(pattern: string, cwd: string): Promi
         cwd
     }, "loadControllersByGlob: will require these controllers...");
 
-    const controllers: [RouteConfiguration[]] = _.reduce(controllerFiles, (sum, controllerFile) => {
+    const controllers: Array<RouteConfiguration[]> = _.reduce(controllerFiles, (sum, controllerFile) => {
 
         const controllerPath = path.resolve(cwd, controllerFile);
         logger.trace({
@@ -36,7 +36,7 @@ export async function loadControllersByGlob(pattern: string, cwd: string): Promi
         console.warn("@aaa-backend-stack/rest.loadControllersByGlob:" + controllerPath + " is not a valid MethodController or StaticController, ignored...");
         return sum;
 
-    }, [] as [RouteConfiguration[]]);
+    }, [] as Array<RouteConfiguration[]>);
 
     return controllers;
 }

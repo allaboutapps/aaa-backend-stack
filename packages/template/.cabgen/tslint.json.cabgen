@@ -74,6 +74,9 @@
       "property-declaration"
     ],
     "underscore-consistent-invocation": false, // Complains about some sorts of lodash invocations, unnecessary 
-    "variable-name": false // Requires variables to either be lower(Camel)Case or UPPER_CASE
+    "variable-name": false, // Requires variables to either be lower(Camel)Case or UPPER_CASE
+    "no-null-keyword": false,
+    "newline-per-chained-call": false,
+    "prefer-readonly": false
   }
 }

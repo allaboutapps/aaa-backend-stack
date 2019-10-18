@@ -19,7 +19,7 @@ export function mapModelAttributesToArgs<I extends Sequelize.Instance<A>, A>(gra
 
     const resolvedArgs: GQL.GraphQLFieldConfigArgumentMap = _.reduce(availableFields, (sum, item, key) => {
 
-        if (_.includes(args, key)) {
+        if (_.includes(args, key as keyof A)) {
 
             // get non nulled arg type (unless explicitly forbidden)...
             let type = item.type instanceof GQL.GraphQLNonNull && options.stripNonNullFromOriginalType !== false ? item.type.ofType : item.type;

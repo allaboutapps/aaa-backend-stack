@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/storage",
-  "version": "1.16.4",
+  "version": "1.16.9",
   "description": "Storage Package Abstraction",
   "license": "MIT",
   "author": "all about apps",
@@ -16,9 +16,9 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.16.0",
-    "@aaa-backend-stack/logger": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.4",
+    "@aaa-backend-stack/build-tools": "^1.16.9",
+    "@aaa-backend-stack/logger": "^1.16.9",
+    "@aaa-backend-stack/utils": "^1.16.9",
     "@types/bluebird": "3.5.8",
     "@types/bluebird-global": "3.5.3",
     "@types/bluebird-retry": "0.0.33",
@@ -30,8 +30,8 @@
     "bluebird-retry": "0.11.0",
     "cls-bluebird": "2.0.1",
     "dataloader-sequelize": "1.5.1",
-    "moment": "2.20.1",
-    "moment-timezone": "0.5.14",
+    "moment": "2.24.0",
+    "moment-timezone": "0.5.26",
     "pg": "6.1.6",
     "pg-hstore": "2.3.2",
     "pg-native": "1.10.1",
@@ -40,10 +40,10 @@
     "uuid": "3.1.0"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^1.16.0",
-    "@aaa-backend-stack/tslint-rules": "^1.16.0",
+    "@aaa-backend-stack/test-environment": "^1.16.9",
+    "@aaa-backend-stack/tslint-rules": "^1.16.7",
     "tslint": "5.11.0",
-    "typescript": "2.9.2"
+    "typescript": "3.6.4"
   },
   "publishConfig": {
     "access": "public"

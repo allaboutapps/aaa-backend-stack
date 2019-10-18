@@ -8,15 +8,13 @@ import { FS_EXTRA } from "@aaa-backend-stack/build-tools";
 const nodemailer = require("nodemailer");
 
 import * as NodemailerNamespace from "nodemailer";
+import { SendMailOptions } from "nodemailer";
+
 export { NodemailerNamespace as NODE_MAILER };
 
-export interface IMailServiceSendOptions {
-    attachments?: NodemailerNamespace.AttachmentObject[];
+export interface IMailServiceSendOptions extends SendMailOptions {
     data?: Object;
-    from?: string;
     template: string;
-    to: string;
-    subject: string;
 }
 
 export interface IMailServiceOptions {
@@ -43,7 +41,7 @@ export function createNodemailerDirectTransport(transporterOptions: any = {}): N
  */
 export class MailService {
 
-    protected _transporter: any;
+    protected _transporter: NodemailerNamespace.Transporter;
     protected _isEnabled: boolean;
     protected _absolutePathToTemplates: string;
 

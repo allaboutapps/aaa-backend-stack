@@ -1,5 +1,16 @@
 ### Master
 * ...
+### 1.16.8
+* add nodemailer-smtp-transport
+
+### 1.16.9
+* update lodash to 4.17.15
+* update moment to 2.24.0
+* update moment-timezone to 0.5.26
+
+### 1.16.7 - 1.16.8
+* update typescript to 3.6.4
+* update nodemailer to 6.3.1
 
 ### 1.16.0 - 1.16.6
 * Fixes for first fully working oss version

@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/tests",
-  "version": "1.16.6",
+  "version": "1.16.9",
   "private": true,
   "description": "Integration tests",
   "license": "MIT",
@@ -17,30 +17,30 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.16.0",
-    "@aaa-backend-stack/devtools": "^1.16.0",
-    "@aaa-backend-stack/git-info": "^1.16.0",
-    "@aaa-backend-stack/graphql": "^1.16.6",
-    "@aaa-backend-stack/graphql-rest-bindings": "^1.16.6",
-    "@aaa-backend-stack/logger": "^1.16.0",
-    "@aaa-backend-stack/mailer": "^1.16.4",
-    "@aaa-backend-stack/polyfills": "^1.16.0",
-    "@aaa-backend-stack/pushes": "^1.16.4",
-    "@aaa-backend-stack/rest": "^1.16.4",
-    "@aaa-backend-stack/serverdate": "^1.16.0",
-    "@aaa-backend-stack/storage": "^1.16.4",
-    "@aaa-backend-stack/utils": "^1.16.4",
-    "@types/lodash": "4.14.50",
-    "lodash": "4.17.10",
-    "template-aaa-backend": "^1.16.6"
+    "@aaa-backend-stack/build-tools": "^1.16.9",
+    "@aaa-backend-stack/devtools": "^1.16.9",
+    "@aaa-backend-stack/git-info": "^1.16.9",
+    "@aaa-backend-stack/graphql": "^1.16.9",
+    "@aaa-backend-stack/graphql-rest-bindings": "^1.16.9",
+    "@aaa-backend-stack/logger": "^1.16.9",
+    "@aaa-backend-stack/mailer": "^1.16.9",
+    "@aaa-backend-stack/polyfills": "^1.16.9",
+    "@aaa-backend-stack/pushes": "^1.16.9",
+    "@aaa-backend-stack/rest": "^1.16.9",
+    "@aaa-backend-stack/serverdate": "^1.16.9",
+    "@aaa-backend-stack/storage": "^1.16.9",
+    "@aaa-backend-stack/utils": "^1.16.9",
+    "@types/lodash": "4.14.144",
+    "lodash": "4.17.15",
+    "template-aaa-backend": "^1.16.9"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^1.16.0",
-    "@aaa-backend-stack/tslint-rules": "^1.16.0",
+    "@aaa-backend-stack/test-environment": "^1.16.9",
+    "@aaa-backend-stack/tslint-rules": "^1.16.7",
     "tslint": "5.11.0",
-    "typescript": "2.9.2"
+    "typescript": "3.6.4"
   },
   "resolutions": {
-    "@types/lodash": "4.14.50"
+    "@types/lodash": "4.14.144"
   }
 }

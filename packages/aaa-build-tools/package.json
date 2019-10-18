@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/build-tools",
-  "version": "1.16.0",
+  "version": "1.16.9",
   "description": "base tools for env sourcing and building cli tools",
   "license": "MIT",
   "author": "all about apps",
@@ -26,14 +26,14 @@
     "@types/cli": "0.11.19",
     "@types/dotenv": "4.0.1",
     "@types/fs-extra": "4.0.1",
-    "@types/lodash": "4.14.50",
+    "@types/lodash": "4.14.144",
     "@types/node": "8.5.8",
     "@types/semver": "5.4.0",
     "cli": "1.0.1",
     "dotenv": "4.0.0",
     "env-cmd": "5.1.0",
     "fs-extra": "4.0.1",
-    "lodash": "4.17.10",
+    "lodash": "4.17.15",
     "nodemon": "1.11.0",
     "npm-watch": "0.2.0",
     "require-dir": "0.3.2",
@@ -42,9 +42,9 @@
     "sort-package-json": "1.7.1"
   },
   "devDependencies": {
-    "@aaa-backend-stack/tslint-rules": "^1.16.0",
+    "@aaa-backend-stack/tslint-rules": "^1.16.7",
     "tslint": "5.11.0",
-    "typescript": "2.9.2"
+    "typescript": "3.6.4"
   },
   "publishConfig": {
     "access": "public"
@@ -53,7 +53,7 @@
     "@types/cli": "0.11.19",
     "@types/dotenv": "4.0.1",
     "@types/fs-extra": "4.0.1",
-    "@types/lodash": "4.14.50",
+    "@types/lodash": "4.14.144",
     "@types/node": "8.5.8",
     "@types/semver": "5.4.0"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/example-lib",
-  "version": "1.16.4",
+  "version": "1.16.9",
   "private": true,
   "description": "Example Lib",
   "license": "MIT",
@@ -17,14 +17,14 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.16.0",
-    "@aaa-backend-stack/utils": "^1.16.4"
+    "@aaa-backend-stack/build-tools": "^1.16.9",
+    "@aaa-backend-stack/utils": "^1.16.9"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^1.16.0",
-    "@aaa-backend-stack/tslint-rules": "^1.16.0",
+    "@aaa-backend-stack/test-environment": "^1.16.9",
+    "@aaa-backend-stack/tslint-rules": "^1.16.7",
     "tslint": "5.11.0",
-    "typescript": "2.9.2"
+    "typescript": "3.6.4"
   },
   "publishConfig": {
     "access": "public"
