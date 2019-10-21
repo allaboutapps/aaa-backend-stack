@@ -1,6 +1,6 @@
 {
   "name": "template-aaa-backend",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "private": true,
   "description": "the all about apps template project for a node.js backend service",
   "author": "all about apps",

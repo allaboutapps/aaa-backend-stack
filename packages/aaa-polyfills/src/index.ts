@@ -43,6 +43,7 @@ export interface ICLSNamespace {
     bindEmitter(emitter: NodeJS.EventEmitter): void;
 }
 
+
 // setup our own process specific CLS namespace.
 const cls = require("cls-hooked");
 

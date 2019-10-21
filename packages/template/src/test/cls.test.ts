@@ -20,14 +20,14 @@ describe("@aaa-backend-stack/polyfills", function () {
 
         // Fill with scopes
         let scopes: string[] = [];
-        for (let i = 0; i < NUM_PROMISES; ++i) {
+        for (let i = 0; i < NUM_PROMISES; i += 1) {
             scopes.push(i.toString());
         }
 
         // Sort alphabetically so the comparison after Promise.all() has completed matches the ORDER BY
         scopes = _.sortBy(scopes);
 
-        const promises = scopes.map((scope, index) => {
+        const promises = scopes.map(async (scope, index) => {
 
             return storage.transaction(async (t: any) => {
                 // Store transaction id and compare after each step
@@ -42,7 +42,7 @@ describe("@aaa-backend-stack/polyfills", function () {
                 expect(tansactionId).to.equal(getTransactionId());
 
                 // Modify permission
-                await permission.update({ scope: scope + "_after" });
+                await permission.update({ scope: `${scope}_after` });
                 expect(tansactionId).to.equal(getTransactionId());
 
                 // Half of the promises throw
@@ -71,7 +71,7 @@ describe("@aaa-backend-stack/polyfills", function () {
 
         // The rest should've completed correctly
         created.forEach((entry, index) => {
-            expect(entry.scope).to.equal(scopes[index * 2] + "_after");
+            expect(entry.scope).to.equal(`${scopes[index * 2]}_after`);
         });
     });
 

@@ -82,7 +82,6 @@ describe("@aaa-backend-stack/storage", function () {
             // tslint:disable-next-line:no-unused-expression
             expect(transaction).to.be.ok;
 
-
             const user = await storage.models.User.create({ uid: TEST_USER_UID });
 
             await transaction.commit();
