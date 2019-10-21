@@ -59,8 +59,8 @@
     when: '"vm" in group_names'
 
   # Setup NodeJS Repo
-  - name: Install NodeJS 8.x (LTS) Repository
-    shell: "curl -sL https://rpm.nodesource.com/setup_8.x | bash -"
+  - name: Install NodeJS 12.x (LTS) Repository
+    shell: "curl -sL https://rpm.nodesource.com/setup_12.x | bash -"
 
   # Install NodeJS
   - name: Install NodeJS (LTS)

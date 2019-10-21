@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/test-environment",
-  "version": "1.16.9",
+  "version": "2.0.0",
   "description": "Test environment (encapsulates mocha test stack)",
   "license": "MIT",
   "author": "all about apps",
@@ -19,7 +19,7 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.16.9",
+    "@aaa-backend-stack/build-tools": "^2.0.0",
     "@types/chai": "3.5.2",
     "@types/chai-as-promised": "0.0.29",
     "@types/chai-http": "0.0.29",

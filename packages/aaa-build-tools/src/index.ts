@@ -3,7 +3,7 @@ const pkg = require("../package.json");
 
 import * as semver from "semver";
 import * as _ from "lodash";
-export const SUPPORTED_NODE_VERSIONS = "~6 || ~8";
+export const SUPPORTED_NODE_VERSIONS = "~8 || ~10 || ~12";
 
 if (semver.satisfies(process.version, SUPPORTED_NODE_VERSIONS) === false) {
     console.error(`@aaa-backend-stack/build-tools: Encountered node version "${process.version}", this stack only supports node in version range "${SUPPORTED_NODE_VERSIONS}"`);

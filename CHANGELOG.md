@@ -1,14 +1,25 @@
 ### Master
 * ...
-### 1.16.8
-* add nodemailer-smtp-transport
 
-### 1.16.9
+### 2.0.1
+* fix cls.test
+
+### 2.0.0
 * update lodash to 4.17.15
 * update moment to 2.24.0
 * update moment-timezone to 0.5.26
+* update cls-bluebird to 2.1.0
+* node versions supported 8, 10 and 12
+* switched from continuation-local-storage to cls-hooked
 
-### 1.16.7 - 1.16.8
+### 1.16.9
+* upgrade ts-lint to 5.20.0
+* fix linter rules
+
+### 1.16.8
+* add nodemailer-smtp-transport
+
+### 1.16.7
 * update typescript to 3.6.4
 * update nodemailer to 6.3.1
 

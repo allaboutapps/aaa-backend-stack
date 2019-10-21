@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/file-storage",
-  "version": "1.16.9",
+  "version": "2.0.0",
   "description": "High level API for a file storage service, actual implementation provided in separate packages",
   "license": "MIT",
   "author": "all about apps",
@@ -16,7 +16,7 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^1.16.9"
+    "@aaa-backend-stack/build-tools": "^2.0.0"
   },
   "devDependencies": {
     "@aaa-backend-stack/tslint-rules": "^1.16.7",

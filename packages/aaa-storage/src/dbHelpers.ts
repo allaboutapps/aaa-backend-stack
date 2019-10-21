@@ -20,7 +20,12 @@ export interface IEnumLiteralOptions {
 }
 
 export function getModelName<TInstance, TAttributes>(model: Sequelize.Model<TInstance, TAttributes>): string {
-    return `${util.inspect(model)}`;
+    // Do NOT use: return `${util.inspect(model)}`; -> according to node docs util.inspect() result
+    // can change anytime. You should not rely on it.
+
+    // This takes model.toString() which returns [object SequelizeModel:User] and extracts "User" to
+    // stay compatible with current code base
+    return model.toString().match(/(?<=\:)(.*?)(?=\])/g)[0];
 }
 
 export function getOrderByEnumLiteral<TInstance, TAttributes>(model: Sequelize.Model<TInstance, TAttributes>, attributeName: keyof TAttributes, sortedEnumValues: string[], options: Partial<IEnumLiteralOptions> = {}): Sequelize.literal {

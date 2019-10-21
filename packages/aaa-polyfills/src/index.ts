@@ -44,7 +44,7 @@ export interface ICLSNamespace {
 }
 
 // setup our own process specific CLS namespace.
-const cls = require("continuation-local-storage");
+const cls = require("cls-hooked");
 
 import * as uuid from "uuid";
 
@@ -95,7 +95,7 @@ export const __OWNS__ = [
     "@types/node-fetch",
     "bluebird", // exposed as global.Promise
     "cls-bluebird",
-    "continuation-local-storage",
+    "cls-hooked",
     "node-fetch", // exposed as global.fetch
     "source-map-support"
 ];

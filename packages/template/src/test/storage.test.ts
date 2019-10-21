@@ -82,16 +82,10 @@ describe("@aaa-backend-stack/storage", function () {
             // tslint:disable-next-line:no-unused-expression
             expect(transaction).to.be.ok;
 
-            const clsTransaction = storage.getTransaction();
-            // tslint:disable-next-line:no-unused-expression
-            expect(clsTransaction).to.not.be.ok;
-
-            storage.setTransaction(transaction);
 
             const user = await storage.models.User.create({ uid: TEST_USER_UID });
 
             await transaction.commit();
-            storage.clearTransaction();
 
             await user.reload();
             expect(user).to.not.equal(null);
@@ -105,16 +99,9 @@ describe("@aaa-backend-stack/storage", function () {
             // tslint:disable-next-line:no-unused-expression
             expect(transaction).to.be.ok;
 
-            const clsTransaction = storage.getTransaction();
-            // tslint:disable-next-line:no-unused-expression
-            expect(clsTransaction).to.not.be.ok;
-
-            storage.setTransaction(transaction);
-
             const user = await storage.models.User.create({ uid: TEST_USER_UID });
 
             await transaction.rollback();
-            storage.clearTransaction();
 
             try {
                 await user.reload();
@@ -138,21 +125,8 @@ describe("@aaa-backend-stack/storage", function () {
             // tslint:disable-next-line:no-unused-expression
             expect(transaction).to.be.ok;
 
-            // Verify no transaction has been automatically added to the CLS context by sequelize
-            const clsTransaction = storage.getTransaction();
-            // tslint:disable-next-line:no-unused-expression
-            expect(clsTransaction).to.not.be.ok;
-
-            // Transaction not automatically set in CLS context, no local parameter set
-            let results = await storage.sequelize.query("SELECT current_setting('my.test_user_uid', TRUE);", { type: SEQUELIZE.QueryTypes.SELECT });
-            expect(results).to.have.length(1);
-            expect(results[0].current_setting).to.satisfy((val: any) => val === "" || val === null);
-
-            // Manually set transaction in CLS context, all queries afterwards use it
-            storage.setTransaction(transaction);
-
             // Transaction is now applied, local parameter applied
-            results = await storage.sequelize.query("SELECT current_setting('my.test_user_uid', TRUE);", { type: SEQUELIZE.QueryTypes.SELECT });
+            let results = await storage.sequelize.query("SELECT current_setting('my.test_user_uid', TRUE);", { type: SEQUELIZE.QueryTypes.SELECT });
             expect(results).to.have.length(1);
             expect(results[0].current_setting).to.equal(TEST_USER_UID);
 
@@ -163,8 +137,6 @@ describe("@aaa-backend-stack/storage", function () {
             results = await storage.sequelize.query("SELECT current_setting('my.test_user_uid', TRUE);", { type: SEQUELIZE.QueryTypes.SELECT });
             expect(results).to.have.length(1);
             expect(results[0].current_setting).to.satisfy((val: any) => val === "" || val === null);
-
-            storage.clearTransaction();
 
             // No transaction set anymore, local parameter does not apply
             results = await storage.sequelize.query("SELECT current_setting('my.test_user_uid', TRUE);", { type: SEQUELIZE.QueryTypes.SELECT });
