@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/build-tools",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "description": "base tools for env sourcing and building cli tools",
   "license": "MIT",
   "author": "all about apps",

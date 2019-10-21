@@ -29,7 +29,7 @@ import * as dotenv from "dotenv";
 
 export function setupDefaultEnv(absolutePathToEnvFile: string) {
 
-    const result = dotenv.config({
+    dotenv.config({
         path: absolutePathToEnvFile
     });
 
@@ -44,7 +44,6 @@ export function setupDefaultEnv(absolutePathToEnvFile: string) {
     if (!process.env.HIDE_AAA_BUILD_TOOLS_INFO) {
         console.log(`Running in node@${process.version} (NODE_ENV=${process.env.NODE_ENV} @aaa-backend-stack/build-tools@v${pkg.version}).`);
     }
-
 }
 
 export {

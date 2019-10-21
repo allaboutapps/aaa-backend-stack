@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/tests",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "private": true,
   "description": "Integration tests",
   "license": "MIT",
@@ -17,25 +17,25 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^2.0.0",
-    "@aaa-backend-stack/devtools": "^2.0.0",
-    "@aaa-backend-stack/git-info": "^2.0.0",
-    "@aaa-backend-stack/graphql": "^2.0.0",
-    "@aaa-backend-stack/graphql-rest-bindings": "^2.0.0",
-    "@aaa-backend-stack/logger": "^2.0.0",
-    "@aaa-backend-stack/mailer": "^2.0.0",
-    "@aaa-backend-stack/polyfills": "^2.0.0",
-    "@aaa-backend-stack/pushes": "^2.0.0",
-    "@aaa-backend-stack/rest": "^2.0.0",
-    "@aaa-backend-stack/serverdate": "^2.0.0",
-    "@aaa-backend-stack/storage": "^2.0.0",
-    "@aaa-backend-stack/utils": "^2.0.0",
+    "@aaa-backend-stack/build-tools": "^2.0.4",
+    "@aaa-backend-stack/devtools": "^2.0.4",
+    "@aaa-backend-stack/git-info": "^2.0.4",
+    "@aaa-backend-stack/graphql": "^2.0.4",
+    "@aaa-backend-stack/graphql-rest-bindings": "^2.0.4",
+    "@aaa-backend-stack/logger": "^2.0.4",
+    "@aaa-backend-stack/mailer": "^2.0.4",
+    "@aaa-backend-stack/polyfills": "^2.0.4",
+    "@aaa-backend-stack/pushes": "^2.0.4",
+    "@aaa-backend-stack/rest": "^2.0.4",
+    "@aaa-backend-stack/serverdate": "^2.0.4",
+    "@aaa-backend-stack/storage": "^2.0.4",
+    "@aaa-backend-stack/utils": "^2.0.4",
     "@types/lodash": "4.14.144",
     "lodash": "4.17.15",
-    "template-aaa-backend": "^2.0.2"
+    "template-aaa-backend": "^2.0.4"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.0.0",
+    "@aaa-backend-stack/test-environment": "^2.0.4",
     "@aaa-backend-stack/tslint-rules": "^1.16.7",
     "tslint": "5.11.0",
     "typescript": "3.6.4"
