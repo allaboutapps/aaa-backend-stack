@@ -1,6 +1,12 @@
 ### Master
 * ...
 
+### 2.1.1
+* unit test that all foreign keys are indexed
+* switch between continuation-local-storage and cls-hooked via env var CLS_USE_CONTINUATION_LOCAL_STORAGE
+* update to typescript 3.7.2
+* fixed deprecated linter settings
+
 ### 2.0.1-2.0.4
 * fix cls.test
 

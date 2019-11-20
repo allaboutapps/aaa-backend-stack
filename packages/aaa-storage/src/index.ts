@@ -58,6 +58,32 @@ export {
 } from "./dbHelpers";
 
 
+/**
+ * Helper function to allow SQL syntax highlighting using the vscode-sql-template-literal extension
+ * (https://marketplace.visualstudio.com/items?itemName=forbeslindesay.vscode-sql-template-literal)
+ * 
+ * Usage: const query = sql`SELECT * FROM bla`;
+ * 
+ * @param query 
+ */
+export function sql(strings, ...values) {
+    let str = "";
+    strings.forEach((string, i) => {
+        const v = values[i];
+        if (typeof v === "function") {
+            str += string + v();
+        } else if (v !== undefined) {
+            str += string + v;
+        } else {
+            str += string;
+        }
+    });
+    return str;
+}
+
+export { findMissingForeignKeyIndices } from "./cli";
+
+
 import * as transactionContext from "./transactionContext";
 export { transactionContext as TRANSACTION_CONTEXT };
 

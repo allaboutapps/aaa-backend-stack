@@ -77,6 +77,11 @@
     "variable-name": false, // Requires variables to either be lower(Camel)Case or UPPER_CASE
     "no-null-keyword": false,
     "newline-per-chained-call": false,
-    "prefer-readonly": false
+    "prefer-readonly": false,
+    "no-unnecessary-bind": false,
+    "no-function-constructor-with-string-args": false,
+    "no-reserved-keywords": false,
+    "no-increment-decrement": false,
+    "no-use-before-declare": false
   }
 }

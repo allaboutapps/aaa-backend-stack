@@ -102,6 +102,8 @@ describe("@aaa-backend-stack/polyfills", function () {
         // tslint:disable-next-line:no-unused-expression
         expect(transaction).to.be.ok;
 
+        storage.setTransaction(transaction);
+
         const clsTransaction: any = storage.getTransaction();
         expect(clsTransaction.id).to.equal(transaction.id);
 
@@ -109,6 +111,8 @@ describe("@aaa-backend-stack/polyfills", function () {
         const user = await storage.models.User.create({ uid: TEST_USER_UID });
 
         await transaction.rollback();
+
+        storage.clearTransaction();
 
         // rollback should remove transaction from cls
         expect(storage.getTransaction()).to.equal(null);
@@ -129,6 +133,8 @@ describe("@aaa-backend-stack/polyfills", function () {
         // tslint:disable-next-line:no-unused-expression
         expect(transaction).to.be.ok;
 
+        storage.setTransaction(transaction);
+
         const clsTransaction: any = storage.getTransaction();
         expect(clsTransaction.id).to.equal(transaction.id);
 
@@ -136,6 +142,8 @@ describe("@aaa-backend-stack/polyfills", function () {
         const user = await storage.models.User.create({ uid: TEST_USER_UID });
 
         await transaction.commit();
+
+        storage.clearTransaction();
 
         // rollback should remove transaction from cls
         expect(storage.getTransaction()).to.equal(null);

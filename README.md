@@ -64,6 +64,22 @@ local$ yarn check-package-validity && git status
 # Is your git still clean? Else go back to step 0.
 #
 
+# 1.1 Check scaffolded project compiles and lints correctly
+# This is necessary due to different (stricter) compiler and linter
+# settings in scaffolded projects
+local$ yarn create-aaa-backend scaffold -xly --debug
+
+# Move the scaffolded project outside of aaa-backend-stack
+# Otherwise vagrant gets confused
+local$ mv aaa-backend .. && cd ../aaa-backend && code .
+
+# Now check that scaffolded project in aaa-backend still compiles
+local$ vagrant up && vagrant ssh
+vagrant$ yarn && yarn build
+
+# Fix compiler and linter erros until all is well.
+# Then change back to aaa-backend-stack and copy the fixes to the template.
+
 # 2. clean all node_modules in root and at the packages level
 local$ yarn clean-modules
 

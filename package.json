@@ -41,7 +41,7 @@
     "lodash": "4.17.15",
     "rimraf": "2.6.1",
     "tslint": "5.11.0",
-    "typescript": "3.6.4"
+    "typescript": "3.7.2"
   },
   "workspaces": [
     "packages/*"

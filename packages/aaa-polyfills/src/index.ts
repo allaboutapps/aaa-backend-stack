@@ -43,9 +43,15 @@ export interface ICLSNamespace {
     bindEmitter(emitter: NodeJS.EventEmitter): void;
 }
 
-
 // setup our own process specific CLS namespace.
-const cls = require("cls-hooked");
+export const usingClsHooked = !process.env.CLS_USE_CONTINUATION_LOCAL_STORAGE;
+const cls = usingClsHooked ? require("cls-hooked") : require("continuation-local-storage");
+if (usingClsHooked) {
+    console.log(`CLS using cls-hooked`);
+} else {
+    console.log(`CLS using continuation-local-storage`);
+}
+
 
 import * as uuid from "uuid";
 
@@ -97,6 +103,7 @@ export const __OWNS__ = [
     "bluebird", // exposed as global.Promise
     "cls-bluebird",
     "cls-hooked",
+    "continuation-local-storage",
     "node-fetch", // exposed as global.fetch
     "source-map-support"
 ];

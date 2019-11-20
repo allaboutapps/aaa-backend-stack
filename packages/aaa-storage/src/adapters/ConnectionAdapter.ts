@@ -1,5 +1,5 @@
 import { getChildLogger } from "@aaa-backend-stack/logger";
-import { CLS_NAMESPACE } from "@aaa-backend-stack/polyfills";
+import { CLS_NAMESPACE, usingClsHooked } from "@aaa-backend-stack/polyfills";
 const logger = getChildLogger("@aaa-backend-stack/storage");
 
 import * as _ from "lodash";
@@ -267,6 +267,38 @@ export class ConnectionAdapter<TConfig extends IConnectionAdapterConfig> {
 
         return existingTransaction;
     }
+
+    /**
+     * Sets the provided transaction for the current CLS context.
+     * Throws an expection if a transaction has already been set unless the `overwriteExisting` parameter has been set (defaults to `false`).
+     *
+     * @param {Sequelize.Transaction} transaction Transaction to set for current CLS context
+     * @param {boolean} [overwriteExisting=false] Optionally allows for an existing transaction to be overwritten, defaults to `false`
+     * @memberof ConnectionAdapter
+     */
+    public setTransaction(transaction: Sequelize.Transaction, overwriteExisting: boolean = false): void {
+        if (!usingClsHooked) {
+            const existingTransaction: Sequelize.Transaction = CLS_NAMESPACE.get(CLS_TRANSACTION_CONTEXT_IDENTIFIER);
+            if (!_.isNil(existingTransaction) && !overwriteExisting) {
+                throw new Error(`ConnectionAdapter.setTransaction: transaction ${(<any>existingTransaction).id} already exists, cannot set another transaction`);
+            }
+
+            CLS_NAMESPACE.set<Sequelize.Transaction>(CLS_TRANSACTION_CONTEXT_IDENTIFIER, transaction);
+        }
+    }
+
+    /**
+     * Removes any set transaction from the current CLS context.
+     * Has no effect if no transaction has been set before.
+     *
+     * @memberof ConnectionAdapter
+     */
+    public clearTransaction(): void {
+        if (!usingClsHooked) {
+            CLS_NAMESPACE.set(CLS_TRANSACTION_CONTEXT_IDENTIFIER, null);
+        }
+    }
+
 
     protected destroyConnectionAdapter(): void {
 
