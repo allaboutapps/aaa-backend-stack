@@ -69,16 +69,17 @@ local$ yarn check-package-validity && git status
 # settings in scaffolded projects
 local$ yarn create-aaa-backend scaffold -xly --debug
 
-# Move the scaffolded project outside of aaa-backend-stack
-# Otherwise vagrant gets confused
-local$ mv aaa-backend .. && cd ../aaa-backend && code .
+# Start container
+local$ cd aaa-backend && yarn docker:up
 
 # Now check that scaffolded project in aaa-backend still compiles
-local$ vagrant up && vagrant ssh
-vagrant$ yarn && yarn build
+container$ yarn && yarn build
 
 # Fix compiler and linter erros until all is well.
-# Then change back to aaa-backend-stack and copy the fixes to the template.
+# Then copy the fixes to the template.
+
+# Then destroy the docker setup and go back to aaa-backend-stack
+local$ yarn docker:destroy && cd ..
 
 # 2. clean all node_modules in root and at the packages level
 local$ yarn clean-modules

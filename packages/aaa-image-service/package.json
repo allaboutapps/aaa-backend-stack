@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/image-service",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Image service for handling image uploads",
   "license": "MIT",
   "author": "all about apps",
@@ -16,12 +16,12 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^2.1.1",
-    "@aaa-backend-stack/file-storage": "^2.1.1",
-    "@aaa-backend-stack/logger": "^2.1.1",
-    "@aaa-backend-stack/rest": "^2.1.1",
-    "@aaa-backend-stack/storage": "^2.1.1",
-    "@aaa-backend-stack/utils": "^2.1.1",
+    "@aaa-backend-stack/build-tools": "^2.2.0",
+    "@aaa-backend-stack/file-storage": "^2.2.0",
+    "@aaa-backend-stack/logger": "^2.2.0",
+    "@aaa-backend-stack/rest": "^2.2.0",
+    "@aaa-backend-stack/storage": "^2.2.0",
+    "@aaa-backend-stack/utils": "^2.2.0",
     "@types/gm": "1.18.0",
     "@types/lodash": "4.14.144",
     "command-exists": "1.2.7",
@@ -29,8 +29,8 @@
     "lodash": "4.17.15"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.1.1",
-    "@aaa-backend-stack/tslint-rules": "^2.1.1",
+    "@aaa-backend-stack/test-environment": "^2.2.0",
+    "@aaa-backend-stack/tslint-rules": "^2.2.0",
     "tslint": "5.11.0",
     "typescript": "3.7.2"
   },

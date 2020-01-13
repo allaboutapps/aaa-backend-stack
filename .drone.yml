@@ -154,7 +154,7 @@ pipeline:
   # BUILD scaffolded project
   # ---------------------------------------------------------------------------
 
-  "docker build (new tagged version)":
+  "docker build (scaffolded template)":
     group: post-check
     image: docker:latest
     volumes:
@@ -162,14 +162,12 @@ pipeline:
     commands:
       - "cd packages/create-aaa-backend/aaa-backend"
       - "docker build --compress -t ${DRONE_REPO,,}-template:${DRONE_COMMIT_SHA} ."
-    when:
-      event: tag
 
   # ---------------------------------------------------------------------------
   # CHECK scaffolded project
   # ---------------------------------------------------------------------------
 
-  "test (new tagged version)":
+  "test (scaffolded template)":
     group: check-template
     image: "${DRONE_REPO,,}-template:${DRONE_COMMIT_SHA}"
     commands:
@@ -177,17 +175,13 @@ pipeline:
       - yarn test:nocheck
       - yarn coverage:summary
     environment: *TEST_ENV
-    when:
-      event: tag
 
-  "lint (new tagged version)":
+  "lint (scaffolded template)":
     group: check-template
     image: "${DRONE_REPO,,}-template:${DRONE_COMMIT_SHA}"
     commands:
       - cd /app
       - yarn lint
-    when:
-      event: tag
 
 # Long living services where the startup order does not matter (otherwise use detach: true)
 services:

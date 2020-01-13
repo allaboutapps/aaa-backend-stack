@@ -6,31 +6,19 @@
 
 Prerequisite: [Install Docker 17.07+ (Edge)](https://store.docker.com/editions/community/docker-ce-desktop-mac).
 
-    # First start
-    $ make create-aaa-backend-docker-setup # typically already done by create-aaa-backend
-    $ make migrate
-    $ make start
+    # Start into docker container similar to vagrant vm
+    $ yarn docker:up
 
-    # Delete the containers and DB volume
-    $ make clean
+    # Stop containers similar to vagrant vm
+    $ yarn docker:halt
 
-    # Start the tests in Docker
-    $ make test
+    # Destroy containers, images and volumes similar to vagrant vm
+    $ yarn docker:destroy
 
-    # Rebuild the Docker images
-    $ make rebuild
-    $ make rebuild-test
-
-    # Cleanup: remove the containers and DB volume
-    $ make clean
-
-
+    
 ## Installing new packages
 
-This is how you can install new npm packages:
-
-* Get a shell in a running `service` container: `make ssh`
-* Install the package with `yarn add <pkg>`
+Workk inside container same as you would in a vagrant vm
 
 # Debugging
 
@@ -38,28 +26,11 @@ This is how you can install new npm packages:
 
 Logging into the test database:
 
-    # Start the test setup
-    $ docker-compose -f docker-compose.test.yml up
-
-    # Enter the postgres container
-    $ docker exec -it templatenodehapi_postgres-test_1 /bin/bash
-
-    # In the postgres container, enter psql
-    root@63ad229826af:/# su -c psql postgres
-
-Useful `psql` commands:
-
-* list databases: `\l`
-* connect to db: `\c <database>`
-* list tables: `\dt`
-
+Connect to your running local db via localhost:5432 using your favourite db client
 
 # Findings
 
-### FS Watcher
-
-We will need a watcher for the tests soon, because starting Docker container for the tests takes a while.
-
+*TODO: Update this section! Probably deprecated*
 
 ### Postgres tmpfs
 
@@ -69,14 +40,6 @@ It can be enabled in the docker compose file with the following directive;
     tmpfs:
       - /var/lib/postgresql/data
 
-
-### Image size
-
-node:6 = 661 mb
-template without psql: 910 mb
-template with psql: 947 mb
-
-`templatenodehapi_service                            latest              0f999e2469d2        4 days ago          947 MB`
 
 multistage builds: only available starting Docker 17.05. Waiting for it...
 

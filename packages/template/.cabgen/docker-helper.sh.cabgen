@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ $1 = "--up" ]; then
+    # --rm removes container after exit
+    # --service-ports maps ports to outside when using run
+    docker-compose run --rm --service-ports service bash
+fi
+
+if [ $1 = "--halt" ]; then
+    docker stop <%= CAB_PROJECT_NAME %>_postgres
+fi
+
+if [ $1 = "--destroy" ]; then
+    docker stop <%= CAB_PROJECT_NAME %>_postgres
+    docker container rm <%= CAB_PROJECT_NAME %>_postgres
+    docker image rm  <%= CAB_PROJECT_NAME %>_service
+    docker volume rm <%= CAB_PROJECT_NAME %>_pgvolume
+fi

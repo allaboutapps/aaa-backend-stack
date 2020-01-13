@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/rest",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Example Lib",
   "license": "MIT",
   "author": "all about apps",
@@ -16,9 +16,9 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^2.1.1",
-    "@aaa-backend-stack/logger": "^2.1.1",
-    "@aaa-backend-stack/utils": "^2.1.1",
+    "@aaa-backend-stack/build-tools": "^2.2.0",
+    "@aaa-backend-stack/logger": "^2.2.0",
+    "@aaa-backend-stack/utils": "^2.2.0",
     "@types/boom": "0.0.33",
     "@types/handlebars": "4.0.36",
     "@types/hapi": "16.1.6",
@@ -40,8 +40,8 @@
     "vision": "4.1.1"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.1.1",
-    "@aaa-backend-stack/tslint-rules": "^2.1.1",
+    "@aaa-backend-stack/test-environment": "^2.2.0",
+    "@aaa-backend-stack/tslint-rules": "^2.2.0",
     "tslint": "5.11.0",
     "typescript": "3.7.2"
   },

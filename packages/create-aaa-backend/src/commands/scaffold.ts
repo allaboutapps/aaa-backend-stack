@@ -59,7 +59,8 @@ export const scaffold = async (parsedArgs) => {
                 remote$ cd /vagrant && yarn && yarn test && yarn db migrate && yarn start
 
                 # Docker:
-                cd ${projectDir} && make test && make halt-test && make migrate && make start
+                local$ cd ${projectDir} && yarn docker:up
+                container$ yarn && yarn test && yarn db migrate && yarn start
 
                 # VS Code:
                 cd ${projectDir} && code .
@@ -67,4 +68,7 @@ export const scaffold = async (parsedArgs) => {
                 # Docs:
                 See ${projectDir}/README*.md for further information...
                 `);
+
+    // Make docker-helper.sh executable
+    CLI.exec(`chmod +x ${projectDir}/docker-helper.sh`);
 };

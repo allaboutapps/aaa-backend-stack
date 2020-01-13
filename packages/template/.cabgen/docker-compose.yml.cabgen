@@ -1,0 +1,35 @@
+version: "3"
+services:
+  service:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile  
+    ports:
+      - "8080:8080"
+    working_dir: /app
+    volumes:
+      - .:/app #:delegated -> enable for better performance, but less write guarantees
+    depends_on:
+      - postgres
+    environment:
+      - PGHOST=postgres
+      # Do NOT provide NODE_ENV here, because yarn test/yarn start are set up with --no-override
+
+  postgres:
+    image: postgres:11.6-alpine
+    container_name: <%= CAB_PROJECT_NAME %>_postgres
+    command: "postgres -c 'shared_buffers=128MB' -c 'fsync=off' -c 'synchronous_commit=off' -c 'full_page_writes=off' -c 'max_connections=100' -c 'client_min_messages=warning'"
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=<%= CAB_POSTGRES_USER %>
+      - POSTGRES_PASSWORD=<%= CAB_POSTGRES_PASSWORD %>
+      - POSTGRES_DB=<%= CAB_POSTGRES_DB %>
+    volumes:
+      - .:/app
+      - pgvolume:/var/lib/postgresql/data
+
+volumes:
+  pgvolume: #declare a named volume to persist DB data

@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/tslint-rules",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "aaa internal tslint rules",
   "license": "MIT",
   "author": "all about apps",
