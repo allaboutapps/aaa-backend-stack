@@ -113,7 +113,7 @@ local$ lerna updated
 local$ lerna publish
 
 # 8. Finally: Test if create-aaa-backend scaffolding still works
-local$ yarn global add create-aaa-backend && create-aaa-backend scaffold -y --debug
+local$ npx create-aaa-backend scaffold -y --debug
 
 ```
 
