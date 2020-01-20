@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/tests",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": true,
   "description": "Integration tests",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "@aaa-backend-stack/utils": "^2.2.0",
     "@types/lodash": "4.14.144",
     "lodash": "4.17.15",
-    "template-aaa-backend": "^2.2.0"
+    "template-aaa-backend": "^2.2.1"
   },
   "devDependencies": {
     "@aaa-backend-stack/test-environment": "^2.2.0",

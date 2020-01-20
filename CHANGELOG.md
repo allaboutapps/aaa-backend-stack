@@ -2,6 +2,13 @@
 * monorepo: pin monorepo, scaffolder and project to node 10
 * CI: execute lint/build/test for generated create-aaa-backend project al the time
 
+### 2.2.1
+* removed Makefile
+* removed bitrise
+
+### 2.2.0
+* New docker-compose setup
+
 ### 2.1.1
 * unit test that all foreign keys are indexed
 * switch between continuation-local-storage and cls-hooked via env var CLS_USE_CONTINUATION_LOCAL_STORAGE

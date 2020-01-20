@@ -7,12 +7,21 @@ if [ $1 = "--up" ]; then
 fi
 
 if [ $1 = "--halt" ]; then
+    echo
+    echo "Stopping db container ..."
     docker stop <%= CAB_PROJECT_NAME %>_postgres
+    echo
 fi
 
 if [ $1 = "--destroy" ]; then
+    echo
+    echo "Stopping db container ..."
     docker stop <%= CAB_PROJECT_NAME %>_postgres
+    echo "Removing db container ..."
     docker container rm <%= CAB_PROJECT_NAME %>_postgres
+    echo "Removing service image ..."
     docker image rm  <%= CAB_PROJECT_NAME %>_service
+    echo "Removing db volume ..."
     docker volume rm <%= CAB_PROJECT_NAME %>_pgvolume
+    echo
 fi
