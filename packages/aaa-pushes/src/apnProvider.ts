@@ -43,7 +43,8 @@ export const apnProvider: Partial<ILazyInitializedApnProvider> = {
                 keyId: config.ios.jwt.keyId,
                 teamId: config.ios.jwt.teamId
             },
-            production: config.ios.production
+            production: config.ios.production,
+            proxy: config.ios.proxy
         }));
 
         /**

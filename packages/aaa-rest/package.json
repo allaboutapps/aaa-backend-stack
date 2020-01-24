@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/rest",
-  "version": "2.2.0",
+  "version": "2.2.3",
   "description": "Example Lib",
   "license": "MIT",
   "author": "all about apps",
@@ -20,7 +20,6 @@
     "@aaa-backend-stack/logger": "^2.2.0",
     "@aaa-backend-stack/utils": "^2.2.0",
     "@types/boom": "0.0.33",
-    "@types/handlebars": "4.0.36",
     "@types/hapi": "16.1.6",
     "@types/hapi-decorators": "0.4.5",
     "@types/inert": "4.2.2",
@@ -28,7 +27,7 @@
     "@types/multiparty": "0.0.31",
     "@types/vision": "4.1.1",
     "boom": "4.3.1",
-    "handlebars": "4.0.6",
+    "handlebars": "4.3.0",
     "hapi": "14.2.0",
     "hapi-auth-basic": "4.2.0",
     "hapi-auth-bearer-token": "4.3.1",
@@ -50,7 +49,6 @@
   },
   "resolutions": {
     "@types/boom": "0.0.33",
-    "@types/handlebars": "4.0.36",
     "@types/hapi": "16.1.6",
     "@types/hapi-decorators": "0.4.5",
     "@types/inert": "4.2.2",

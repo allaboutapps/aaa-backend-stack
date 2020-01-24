@@ -2,6 +2,10 @@
 * monorepo: pin monorepo, scaffolder and project to node 10
 * CI: execute lint/build/test for generated create-aaa-backend project al the time
 
+### 2.2.2
+* added proxy support for pushes package
+* updated apn to 2.2.0
+
 ### 2.2.1
 * removed Makefile
 * removed bitrise

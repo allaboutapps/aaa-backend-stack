@@ -3,6 +3,7 @@ const logger = getChildLogger("@aaa-backend-stack/pushes");
 
 import * as serverdate from "@aaa-backend-stack/serverdate";
 import * as _ from "lodash";
+import { URL } from "url";
 const fetch = require("node-fetch"); // use fetch instead of request api
 
 import { apnProvider } from "./apnProvider";
@@ -100,7 +101,8 @@ export class AndroidPushNotification {
                 method: "POST",
                 timeout: 15000, // max amout to make request...
                 headers: headers,
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
+                agent: apnProvider.CONFIG.android.proxy ? apnProvider.CONFIG.android.proxy.agent : null
             });
 
             this.isSent = true; // flag as sent!

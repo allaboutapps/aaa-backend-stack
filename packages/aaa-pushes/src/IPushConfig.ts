@@ -1,3 +1,5 @@
+import { Agent as HttpsAgent } from "https";
+
 export interface IPushConfig {
     android: {
         send: boolean; // only send notification if set to true
@@ -5,6 +7,9 @@ export interface IPushConfig {
         url: string;
         backOff: number;
         retryCount: number;
+        proxy?: {
+            agent: HttpsAgent;
+        };
     };
 
     ios: {
@@ -17,5 +22,9 @@ export interface IPushConfig {
             appBundleId: string;
         },
         retryCount: number;
+        proxy?: {
+            host: string;
+            port: number;
+        };
     };
 }

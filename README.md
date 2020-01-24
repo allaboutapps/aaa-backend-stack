@@ -102,7 +102,7 @@ vagrant$ yarn test
 
 # 7. All fine? Let publish!
 
-# 7.1. Check if we are going to publish to our own private npm registry
+# 7.1. Make sure we are going to publish to the public npm registry
 local$ npmrc
 
 # 7.2. Check which packages will be updated

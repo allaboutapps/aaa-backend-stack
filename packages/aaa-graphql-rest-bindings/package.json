@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/graphql-rest-bindings",
-  "version": "2.2.0",
+  "version": "2.2.3",
   "description": "Provides utils for graphql introspection and devtools in combination with rest layer",
   "license": "MIT",
   "author": "all about apps",
@@ -19,7 +19,7 @@
     "@aaa-backend-stack/build-tools": "^2.2.0",
     "@aaa-backend-stack/graphql": "^2.2.0",
     "@aaa-backend-stack/logger": "^2.2.0",
-    "@aaa-backend-stack/rest": "^2.2.0",
+    "@aaa-backend-stack/rest": "^2.2.3",
     "@aaa-backend-stack/utils": "^2.2.0",
     "@types/bluebird": "3.5.8",
     "@types/bluebird-global": "3.5.3",
