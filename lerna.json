@@ -6,5 +6,5 @@
   "hoist": true,
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "2.2.3"
+  "version": "2.2.4"
 }

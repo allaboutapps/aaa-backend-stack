@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/storage",
-  "version": "2.2.0",
+  "version": "2.2.4",
   "description": "Storage Package Abstraction",
   "license": "MIT",
   "author": "all about apps",
@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@aaa-backend-stack/build-tools": "^2.2.0",
-    "@aaa-backend-stack/logger": "^2.2.0",
-    "@aaa-backend-stack/utils": "^2.2.0",
+    "@aaa-backend-stack/logger": "^2.2.4",
+    "@aaa-backend-stack/utils": "^2.2.4",
     "@types/bluebird": "3.5.8",
     "@types/bluebird-global": "3.5.3",
     "@types/bluebird-retry": "0.0.33",
@@ -40,7 +40,7 @@
     "uuid": "3.1.0"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.2.0",
+    "@aaa-backend-stack/test-environment": "^2.2.4",
     "@aaa-backend-stack/tslint-rules": "^2.2.0",
     "tslint": "5.11.0",
     "typescript": "3.7.2"

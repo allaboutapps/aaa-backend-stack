@@ -112,7 +112,8 @@ local$ lerna updated
 # (make sure git is clean before running this + ensure you comply to semver!)
 local$ lerna publish
 
-# 8. Finally: Test if create-aaa-backend scaffolding still works
+# 8. Finally: Publish to public github (so that the templat can be pulled) and then 
+# test if create-aaa-backend scaffolding still works
 local$ npx create-aaa-backend scaffold -y --debug
 
 ```

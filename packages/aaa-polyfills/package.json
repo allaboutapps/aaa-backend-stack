@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/polyfills",
-  "version": "2.2.0",
+  "version": "2.2.4",
   "description": "Unified core and polyfills injector for backend projects. This project explicitly maintains the cls patched sequelize, bluebird, fetch",
   "license": "MIT",
   "author": "all about apps",
@@ -34,7 +34,7 @@
     "uuid": "3.1.0"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.2.0",
+    "@aaa-backend-stack/test-environment": "^2.2.4",
     "@aaa-backend-stack/tslint-rules": "^2.2.0",
     "tslint": "5.11.0",
     "typescript": "3.7.2"
