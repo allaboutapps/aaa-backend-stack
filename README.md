@@ -73,13 +73,13 @@ local$ yarn create-aaa-backend scaffold -xly --debug
 local$ cd aaa-backend && yarn docker:up
 
 # Now check that scaffolded project in aaa-backend still compiles
-container$ yarn && yarn build
+container$ yarn && yarn build && yarn test
 
 # Fix compiler and linter erros until all is well.
 # Then copy the fixes to the template.
 
 # Then destroy the docker setup and go back to aaa-backend-stack
-local$ yarn docker:destroy && cd ..
+local$ yarn docker:destroy && cd .. && rm -rf aaa-backend
 
 # 2. clean all node_modules in root and at the packages level
 local$ yarn clean-modules
@@ -112,7 +112,12 @@ local$ lerna updated
 # (make sure git is clean before running this + ensure you comply to semver!)
 local$ lerna publish
 
-# 8. Finally: Publish to public github (so that the templat can be pulled) and then 
+# 8.1 Make sure you do NOT have a global create-aaa-backend installed
+local$ create-aaa-backend
+# Should return
+-bash: create-aaa-backend: command not found
+
+# 8.2 Finally: Publish to public github (so that the templat can be pulled) and then 
 # test if create-aaa-backend scaffolding still works
 local$ npx create-aaa-backend scaffold -y --debug
 
