@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/devtools",
-  "version": "2.2.4",
+  "version": "2.3.4",
   "description": "Websocket devtools which integrates with aaa logger (pipes logs from stdout)",
   "license": "MIT",
   "author": "all about apps",
@@ -16,8 +16,8 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^2.2.0",
-    "@aaa-backend-stack/git-info": "^2.2.4",
+    "@aaa-backend-stack/build-tools": "^2.3.4",
+    "@aaa-backend-stack/git-info": "^2.3.4",
     "@types/lodash": "4.14.144",
     "@types/ws": "3.2.1",
     "bufferutil": "4.0.1",
@@ -26,8 +26,8 @@
     "ws": "3.3.3"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.2.4",
-    "@aaa-backend-stack/tslint-rules": "^2.2.0",
+    "@aaa-backend-stack/test-environment": "^2.3.4",
+    "@aaa-backend-stack/tslint-rules": "^2.3.4",
     "tslint": "5.11.0",
     "typescript": "3.7.2"
   },

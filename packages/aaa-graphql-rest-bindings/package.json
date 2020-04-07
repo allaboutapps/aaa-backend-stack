@@ -1,6 +1,6 @@
 {
   "name": "@aaa-backend-stack/graphql-rest-bindings",
-  "version": "2.2.4",
+  "version": "2.3.4",
   "description": "Provides utils for graphql introspection and devtools in combination with rest layer",
   "license": "MIT",
   "author": "all about apps",
@@ -16,11 +16,11 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@aaa-backend-stack/build-tools": "^2.2.0",
-    "@aaa-backend-stack/graphql": "^2.2.4",
-    "@aaa-backend-stack/logger": "^2.2.4",
-    "@aaa-backend-stack/rest": "^2.2.4",
-    "@aaa-backend-stack/utils": "^2.2.4",
+    "@aaa-backend-stack/build-tools": "^2.3.4",
+    "@aaa-backend-stack/graphql": "^2.3.4",
+    "@aaa-backend-stack/logger": "^2.3.4",
+    "@aaa-backend-stack/rest": "^2.3.4",
+    "@aaa-backend-stack/utils": "^2.3.4",
     "@types/bluebird": "3.5.8",
     "@types/bluebird-global": "3.5.3",
     "@types/lodash": "4.14.144",
@@ -30,8 +30,8 @@
     "lodash": "4.17.15"
   },
   "devDependencies": {
-    "@aaa-backend-stack/test-environment": "^2.2.4",
-    "@aaa-backend-stack/tslint-rules": "^2.2.0",
+    "@aaa-backend-stack/test-environment": "^2.3.4",
+    "@aaa-backend-stack/tslint-rules": "^2.3.4",
     "tslint": "5.11.0",
     "typescript": "3.7.2"
   },

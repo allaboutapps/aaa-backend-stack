@@ -134,8 +134,8 @@ local$ git commit -m "merge latest"
 local$ git tag 1.16.1
 
 # 3. Push to github
-local$ git push origin-github
-local$ git push origin-github 1.16.1
+local$ git push origin-github
+local$ git push origin-github 1.16.1
 ```
 
 ### I want to add a dependency

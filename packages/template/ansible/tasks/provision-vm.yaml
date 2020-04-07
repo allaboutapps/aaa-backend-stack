@@ -1,6 +1,7 @@
 # Included by provision.yaml. Tasks only for the real server.
 - name: Link vagrant shared directory (VM only)
   file: src=/vagrant dest={{ code_root }} state=link owner={{ project_user }}
+  ignore_errors: true
 
 - name: Ensure the firewalld service is running
   service: name=firewalld state=started enabled=yes

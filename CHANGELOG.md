@@ -1,6 +1,15 @@
 ### Master
+* ...
+
+### 2.3.4
 * monorepo: pin monorepo, scaffolder and project to node 10
-* CI: execute lint/build/test for generated create-aaa-backend project al the time
+* CI: execute lint/build/test for generated create-aaa-backend project all the time
+* storage: db connection pool defaults (min=1, max=cpu_cores*2, idle=10000ms) and allow to specify via `pgConnection.pool`.
+  * Furhermore allows to specify pool size via `SEQ_POOL_MIN`, `SEQ_POOL_MAX` and `SEQ_POOL_IDLE` env vars.
+* ansible provision fixes
+
+### 2.3.0-2.3.3
+* bad builds, ignore.
 
 ### 2.2.5
 * Update dependencies with high vulnerabilities

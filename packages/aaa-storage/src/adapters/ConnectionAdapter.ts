@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import * as Sequelize from "sequelize";
 import dataloader, { resetCache as dataloaderResetCache } from "dataloader-sequelize";
 import * as bluebirdRetry from "bluebird-retry";
+import * as os from "os";
 const pg = require("pg").native;
 
 // Settings
@@ -18,7 +19,28 @@ export interface IPGConnectionOptions {
     password: string;
     database: string;
     timezone: string;
+    pool?: Partial<IPGConnectionPoolOptions>;
 }
+
+export interface IPGConnectionPoolOptions {
+    max: number;
+    min: number;
+    idle: number;
+    handleDisconnects: boolean;
+}
+
+const PG_CONNECTION_SEQ_POOL_DEFAULTS = {
+    max: process.env.SEQ_POOL_MAX
+        ? parseInt(process.env.SEQ_POOL_MAX, 10)
+        : os.cpus().length * 2, // cpu_cores * 2 is the default max for database connections
+    min: process.env.SEQ_POOL_MIN
+        ? parseInt(process.env.SEQ_POOL_MIN, 10)
+        : 1, // we try to keep at least one connection open all time
+    idle: process.env.SEQ_POOL_IDLE
+        ? parseInt(process.env.SEQ_POOL_IDLE, 10)
+        : 60000,
+    handleDisconnects: true
+};
 
 export interface IConnectionAdapterConfig {
     pgConnection: IPGConnectionOptions;
@@ -73,7 +95,14 @@ export class ConnectionAdapter<TConfig extends IConnectionAdapterConfig> {
             throw new Error("ConnectionAdapter: tried to reset config while sequelize is still initialized.");
         }
 
-        this._CONFIG = config;
+        this._CONFIG = _.defaultsDeep(config, {
+            pgConnection: {
+                pool: {
+                    ...PG_CONNECTION_SEQ_POOL_DEFAULTS,
+                    ...(config.pgConnection.pool ? config.pgConnection.pool : {})
+                }
+            }
+        });
     }
 
     public get CONFIG(): TConfig {
@@ -378,7 +407,8 @@ export class ConnectionAdapter<TConfig extends IConnectionAdapterConfig> {
                     attempt,
                     database,
                     host: restPGConfig.host,
-                    port: restPGConfig.port
+                    port: restPGConfig.port,
+                    pool: restPGConfig.pool
                 }, "ConnectionAdapter.initConnectionAdapter: attempting to initialize sequelize...");
 
                 try {
@@ -387,10 +417,10 @@ export class ConnectionAdapter<TConfig extends IConnectionAdapterConfig> {
                             logger.trace(query);
                         }
                     }, {
-                        ...restPGConfig,
-                        dialect: "postgres",
-                        native: true,
-                    }));
+                            ...restPGConfig,
+                            dialect: "postgres",
+                            native: true,
+                        }));
 
                     logger.debug({
                         ...CONNECTION_RETRY_CONFIG,
@@ -407,7 +437,8 @@ export class ConnectionAdapter<TConfig extends IConnectionAdapterConfig> {
                         attempt,
                         database,
                         host: restPGConfig.host,
-                        port: restPGConfig.port
+                        port: restPGConfig.port,
+                        pool: restPGConfig.pool
                     }, "ConnectionAdapter.initConnectionAdapter: initialized & authenticated");
 
                     return seq;

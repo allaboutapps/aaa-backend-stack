@@ -33,7 +33,7 @@
     register: pg_repo
 
   - name: Setup PostgreSQL yum repository
-    yum: name=https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64/pgdg-centos11-11-2.noarch.rpm state=present
+    yum: name=https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm state=present
     when: not pg_repo.stat.exists
 
   # Install Packages
@@ -75,8 +75,13 @@
       gpgkey: https://dl.yarnpkg.com/rpm/pubkey.gpg
       gpgcheck: yes
 
+
+  # eventually you need to use a specific version of yarn
+  # yum --showduplicate list yarn
+  # sudo yum remove yarn
+  # sudo yum install yarn-1.19.2-1.noarch
   - name: Install Yarn
-    yum: name=yarn state=present
+    yum: name=yarn-1.19.2-1.noarch state=present
 
   # Install global NodeJS modules
   - name: Install required global node modules
@@ -90,6 +95,7 @@
                 line='export PATH="$PATH:/usr/pgsql-11/bin"'
                 insertbefore=EOF
                 create=yes
+    ignore_errors: true
 
   - name: Symlink 'pg_config' to /usr/bin/
     file: src=/usr/pgsql-11/bin/pg_config dest=/usr/bin/pg_config state=link
