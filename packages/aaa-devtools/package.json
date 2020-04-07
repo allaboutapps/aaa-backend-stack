@@ -23,7 +23,7 @@
     "bufferutil": "4.0.1",
     "lodash": "4.17.15",
     "utf-8-validate": "5.0.2",
-    "ws": "3.3.3"
+    "ws": "7.2.3"
   },
   "devDependencies": {
     "@aaa-backend-stack/test-environment": "^2.3.4",
