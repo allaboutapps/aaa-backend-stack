@@ -38,7 +38,7 @@
     "graphql-tag": "2.4.2",
     "lodash": "4.17.15",
     "resolve-glob": "0.1.8",
-    "sequelize": "3.31.0"
+    "sequelize": "5.15.1"
   },
   "devDependencies": {
     "@aaa-backend-stack/test-environment": "^2.3.4",

@@ -19,7 +19,7 @@
     "@types/graphql": "0.9.4",
     "@types/sequelize": "4.0.39",
     "graphql": "0.10.5",
-    "sequelize": "3.31.0"
+    "sequelize": "5.15.1"
   },
   "resolutions": {
     "@types/graphql": "0.9.4",
