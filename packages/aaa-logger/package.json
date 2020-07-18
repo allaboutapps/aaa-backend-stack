@@ -27,7 +27,7 @@
     "@types/nodemailer": "6.2.1",
     "bunyan": "1.8.5",
     "good": "6.6.3",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "nodemailer": "6.3.1",
     "nodemailer-sendmail-transport": "1.0.2",
     "omit-deep": "0.3.0",
