@@ -27,7 +27,7 @@
     "cls-bluebird": "2.1.0",
     "cls-hooked": "4.2.2",
     "continuation-local-storage": "3.2.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "node-fetch": "1.7.2",
     "sequelize": "3.31.0",
     "source-map-support": "0.4.15",
