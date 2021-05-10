@@ -33,7 +33,7 @@
     "dotenv": "4.0.0",
     "env-cmd": "5.1.0",
     "fs-extra": "4.0.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "nodemon": "1.11.0",
     "npm-watch": "0.2.0",
     "require-dir": "0.3.2",

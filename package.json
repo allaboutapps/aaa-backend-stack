@@ -38,7 +38,7 @@
   "devDependencies": {
     "fs-extra": "4.0.1",
     "lerna": "2.6.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "rimraf": "2.6.1",
     "tslint": "5.11.0",
     "typescript": "3.7.2"
