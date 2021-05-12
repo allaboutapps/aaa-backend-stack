@@ -28,7 +28,7 @@
     "bunyan": "1.8.5",
     "good": "6.6.3",
     "lodash": "4.17.15",
-    "nodemailer": "6.3.1",
+    "nodemailer": "6.4.16",
     "nodemailer-sendmail-transport": "1.0.2",
     "omit-deep": "0.3.0",
     "prettyjson": "1.2.1",
