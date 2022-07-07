@@ -30,7 +30,7 @@
     "bluebird-retry": "0.11.0",
     "cls-bluebird": "2.1.0",
     "dataloader-sequelize": "1.5.1",
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "moment-timezone": "0.5.26",
     "pg": "6.1.6",
     "pg-hstore": "2.3.2",
